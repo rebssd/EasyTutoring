@@ -41,7 +41,13 @@ def user_login(request):
 			user = authenticate(username=form_login, password=form_senha)
 			if user is not None:
 				login(request,user)
-				return render(request, 'usuarios/arearestrita.html')
+				login_usuario = Usuario.objects.get(user=user)
+				if login_usuario.tipo == 'professor':
+					return render(request, 'professor_area/index.html')
+				elif login_usuario.tipo == 'aluno':
+					return render(request, 'aluno_area/index.html')
+				else:
+					return render(request, 'tutor_area/index.html')
 	else:
 		form = LoginForm()
 	context_dict = {'form': form}
