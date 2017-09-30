@@ -15,6 +15,8 @@ Including another URLconf
 """
 from django.conf.urls import include, url 
 from django.contrib import admin
+from django.conf import settings
+from django.conf.urls.static import static
 
 urlpatterns = [
     url(r'^usuarios/', include('usuarios.urls')),
@@ -22,4 +24,4 @@ urlpatterns = [
     url(r'^professor_area/', include('professor_area.urls')),
     url(r'^tutor_area/', include('tutor_area.urls')),
     url(r'^admin/', admin.site.urls),
-]
+] + static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)

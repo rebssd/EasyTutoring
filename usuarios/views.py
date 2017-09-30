@@ -5,6 +5,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
 from .models import Usuario
+from django.contrib.auth import logout
 
 
 # Create your views here.
@@ -14,7 +15,7 @@ def index(request):
 
 def new(request):
 	if request.method == 'POST':
-		form = UsuariosForm(request.POST)
+		form = UsuariosForm(request.POST, request.FILES)
 		if form.is_valid():
 			login = form.cleaned_data['login']
 			senha = form.cleaned_data['senha']
@@ -23,10 +24,12 @@ def new(request):
 			matricula = form.cleaned_data['matricula']
 			curso = form.cleaned_data['curso']
 			tipo = form.cleaned_data['tipo']
+			img = form.cleaned_data['img']
 			new_user = User.objects.create_user(login, email=email, password=senha)
 			new_user.save()
-			new_profile = Usuario(user=new_user, nome_completo=nome_completo, tipo=tipo,  matricula=matricula, curso=curso)
+			new_profile = Usuario(user=new_user, nome_completo=nome_completo, tipo=tipo,  matricula=matricula, curso=curso,img=img,thumb=img)
 			new_profile.save()
+
 			return HttpResponseRedirect('/usuarios/index.html')
 	else:
 		form = UsuariosForm()
@@ -43,11 +46,11 @@ def user_login(request):
 				login(request,user)
 				login_usuario = Usuario.objects.get(user=user)
 				if login_usuario.tipo == 'professor':
-					return render(request, 'professor_area/index.html')
+					return HttpResponseRedirect('/professor_area/index.html')
 				elif login_usuario.tipo == 'aluno':
-					return render(request, 'aluno_area/index.html')
+					return HttpResponseRedirect('/aluno_area/index.html')
 				else:
-					return render(request, 'tutor_area/index.html')
+					return HttpResponseRedirect('/tutor_area/index.html')
 	else:
 		form = LoginForm()
 	context_dict = {'form': form}
@@ -56,3 +59,7 @@ def user_login(request):
 @login_required
 def restricted_area(request):
 	return render(request, 'usuarios/arearestrita.html')
+
+def user_logout(request):
+    logout(request)
+    return HttpResponseRedirect('/usuarios/index.html')

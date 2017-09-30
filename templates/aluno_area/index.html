@@ -3,3 +3,6 @@
 {% block title %}
         <title>Area do Aluno</title>
 {% endblock title %}
+{% block logout %}
+ <li><a href="{% url 'usuarios:logout' %}"><i class="fa fa-sign-out fa-fw"></i> Sair</a>
+{% endblock logout %}

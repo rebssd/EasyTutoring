@@ -12,7 +12,7 @@
 {% endblock title %}
 
 {% block form %}
-	<form action="{% url 'usuarios:new' %}" method="post">
+	<form action="{% url 'usuarios:new' %}" method="post" enctype="multipart/form-data">
 		{% csrf_token %}
         <fieldset>
             <div class="form-group">
@@ -50,7 +50,10 @@
 			        <label for="id_tipo">Tipo:</label>
 			        {{ form.tipo|add_class:"form-control" }}
             </div>
-            <!-- Change this to a button or input when using this as a form -->
+            <div class="form-group">
+			        <label for="img">img:</label>
+			        {{ form.img|add_class:"form-control" }}
+            </div>
 
           <input  type="submit" value="Registrar" class="btn btn-lg btn-default btn-block" />
 

@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 {% load static  %}
-
 <head>
 
     <meta charset="utf-8">
@@ -64,7 +63,7 @@ Morris Charts CSS -->
                         <li><a href="#"><i class="fa fa-gear fa-fw"></i> Configurações da Conta</a>
                         </li>
                         <li class="divider"></li>
-                        <li><a href="#"><i class="fa fa-sign-out fa-fw"></i> Sair</a>
+                            {% block logout %}{% endblock logout %}
                         </li>
                     </ul>
                     <!-- /.dropdown-user -->
@@ -76,6 +75,8 @@ Morris Charts CSS -->
             <div class="navbar-default sidebar" role="navigation">
                 <div class="sidebar-nav navbar-collapse">
                     <ul class="nav" id="side-menu">
+                        <br>
+                       <center><p><img src="{{ usuario.thumb.url}}" class= "img-circle"/> </p></center>
                         <li>
                             <a href="index.html"><i class="fa fa-dashboard fa-fw"></i> Home</a>
                         </li>

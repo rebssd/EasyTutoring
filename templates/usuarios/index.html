@@ -1,1 +1,4 @@
 {% extends "templatePaginaInicial.html" %}
+{% block acessar %}
+   <a class="btn btn-primary btn-xl js-scroll-trigger" href="{% url 'usuarios:login' %}">Acessar</a>
+{% endblock acessar %}
