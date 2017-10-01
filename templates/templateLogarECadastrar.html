@@ -3,7 +3,6 @@
 <html lang="pt-br">
 {% load static  %}
 {% load widget_tweaks %}
-
 <head>
 
     <meta charset="utf-8">
@@ -26,6 +25,7 @@
 
     <!-- Custom Fonts -->
     <link href="{% static 'templateEasyTutoring/vendor/font-awesome/css/font-awesome.min.css' %}" rel="stylesheet" type="text/css">
+    <link href="{% static 'css/notify/bootstrap-notify.css' %}" rel="stylesheet" type="text/css">
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -33,10 +33,11 @@
         <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
-
+    <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Old+Standard+TT:400,700)">    
 </head>
 
 <body>
+
 
     <div class="container">
         <div class="row">
@@ -64,6 +65,12 @@
 
     <!-- Custom Theme JavaScript -->
     <script src="{% static 'templateEasyTutoring/dist/js/sb-admin-2.js' %}"></script>
+    <script src="{% static 'js/notify/bootstrap-notify.js' %}"></script>
+    <script src="{% static 'js/notify/bootstrap-notify.min.js' %}"></script>
+
+    {% block javascript %}
+        
+    {% endblock javascript %}
 
 </body>
 

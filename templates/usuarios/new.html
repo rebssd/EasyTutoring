@@ -14,11 +14,26 @@
 {% block form %}
 	<form action="{% url 'usuarios:new' %}" method="post" enctype="multipart/form-data">
 		{% csrf_token %}
+		{% if erros %}
+		    {% for field in form %}
+		        {% for error in field.errors %}
+		            <div class="message" >
+		            {{error|escape}}
+		            </div>
+		        {% endfor %}
+		    {% endfor %}
+		    {% for error in form.non_field_errors %}
+		        <div class="message">
+		         {{ error|escape}}<br>
+		        </div>
+		    {% endfor %}
+		{% endif %}
+
         <fieldset>
             <div class="form-group">
 			        {{ form.login.errors }}
 			        <label for="id_login">Username:</label>
-			        {{ form.login|add_class:"form-control" }}
+			        {{ form.login|add_class:"form-control"|attr:"id:id_username"}}
             </div>
             <div class="form-group">
 			        {{ form.senha.errors }}
@@ -28,7 +43,7 @@
             <div class="form-group">
 			        {{ form.email.errors }}
 			        <label for="id_email">Email:</label>
-			        {{ form.email|add_class:"form-control" }}
+			        {{ form.email|add_class:"form-control"|attr:"id:id_email"}}
             </div>
             <div class="form-group">
 			        {{ form.nome_completo.errors }}
@@ -38,7 +53,7 @@
             <div class="form-group">
 			        {{ form.matricula.errors }}
 			        <label for="id_matricula">Matricula:</label>
-			        {{ form.matricula|add_class:"form-control" }}
+			        {{ form.matricula|add_class:"form-control"|attr:"id:id_matricula"}}
             </div>
             <div class="form-group">
 			        {{ form.curso.errors }}
@@ -54,9 +69,125 @@
 			        <label for="img">img:</label>
 			        {{ form.img|add_class:"form-control" }}
             </div>
+		{% if form.erros %}
+            <div class="alert alert-danger">
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                {{form.non_field_errors}}
+            </div>
 
+        {% endif %}
           <input  type="submit" value="Registrar" class="btn btn-lg btn-default btn-block" />
 
         </fieldset>
     </form>
 {% endblock form %}
+
+{% block javascript %}
+    <script>    
+    $("#id_username").change(function () {
+      var username = $(this).val();
+
+      $.ajax({
+        url: 'validate_username',
+        data: {
+          'username': username
+        },
+        dataType: 'json',
+        success: function (exist_user) {
+          if (exist_user.users) {
+            $.notify({
+            message: 'O usuário já existe, por favor utilize outro username!'
+        },{
+            type: 'pastel-warning',
+            delay: 4000,
+            template: '<div data-notify="container" class="col-xs-11 col-sm-3 alert alert-{0}" role="alert">' +
+                '<span data-notify="title">{1}</span>' +
+                '<span data-notify="message">{2}</span>' +
+            '</div>'
+        });
+          }
+        }
+      });
+
+    });
+</script>
+    <script>    
+    $("#id_email").change(function () {
+      var email = $(this).val();
+
+      $.ajax({
+        url: 'validate_email',
+        data: {
+          'email': email
+        },
+        dataType: 'json',
+        success: function (exist_email) {
+          if (exist_email.emails) {
+            $.notify({
+            message: 'O email já existe, verifique se já está cadastrado,ou, utilize outro email!'
+        },{
+            type: 'pastel-warning',
+            delay: 4000,
+            template: '<div data-notify="container" class="col-xs-11 col-sm-3 alert alert-{0}" role="alert">' +
+                '<span data-notify="title">{1}</span>' +
+                '<span data-notify="message">{2}</span>' +
+            '</div>'
+        });
+          }
+        }
+      });
+
+    });
+</script>
+    <script>    
+    $("#id_matricula").change(function () {
+      var matricula = $(this).val();
+
+      $.ajax({
+        url: 'validate_matricula',
+        data: {
+          'matricula': matricula
+        },
+        dataType: 'json',
+        success: function (exist_matricula) {
+          if (exist_matricula.matriculas) {
+            $.notify({
+            message: 'A matricula já existe, por favor utilize outra!',
+
+        },{
+            type: 'pastel-warning',
+            delay: 4000,
+            template: '<div data-notify="container" class="col-xs-11 col-sm-3 alert alert-{0}" role="alert">' +
+                '<span data-notify="title">{1}</span>' +
+                '<span data-notify="message">{2}</span>' +
+            '</div>'
+        });
+          }
+        }
+      });
+
+    });
+</script>
+<script >
+$('.message').each(function(){
+    x = $('.message').text();
+});
+	messages = x.split('.');
+	for (i = 0; i < messages.length-1; i++) { 
+	    $.notify({
+            message: messages[i],
+        },{
+            type: 'pastel-warning',
+            delay: 5000,
+            template: '<div data-notify="container" class="col-xs-11 col-sm-3 alert alert-{0}" role="alert">' +
+                '<span data-notify="title">{1}</span>' +
+                '<span data-notify="message">{2}</span>' +
+            '</div>'
+        });
+	}
+
+
+
+</script>
+
+{% endblock javascript %}

@@ -19,7 +19,7 @@ from django.conf import settings
 from django.conf.urls.static import static
 
 urlpatterns = [
-    url(r'^usuarios/', include('usuarios.urls')),
+    url(r'^', include('usuarios.urls')),
     url(r'^aluno_area/', include('aluno_area.urls')),
     url(r'^professor_area/', include('professor_area.urls')),
     url(r'^tutor_area/', include('tutor_area.urls')),

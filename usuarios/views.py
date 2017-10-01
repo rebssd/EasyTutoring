@@ -7,6 +7,7 @@ from django.contrib.auth.decorators import login_required
 from .models import Usuario
 from django.contrib.auth import logout
 
+from django.http import JsonResponse
 
 # Create your views here.
 def index(request):
@@ -14,6 +15,7 @@ def index(request):
     return render(request, 'usuarios/index.html')
 
 def new(request):
+	template_name = 'usuarios/new.html'
 	if request.method == 'POST':
 		form = UsuariosForm(request.POST, request.FILES)
 		if form.is_valid():
@@ -29,10 +31,12 @@ def new(request):
 			new_user.save()
 			new_profile = Usuario(user=new_user, nome_completo=nome_completo, tipo=tipo,  matricula=matricula, curso=curso,img=img,thumb=img)
 			new_profile.save()
+			return HttpResponseRedirect('index.html')
+		else:
+			context={ 'form': form, 'erros': True}
+			return render(request, 'usuarios/new.html', context=context)
 
-			return HttpResponseRedirect('/usuarios/index.html')
-	else:
-		form = UsuariosForm()
+	form = UsuariosForm()
 	return render(request, 'usuarios/new.html', {'form': form})
 
 def user_login(request):
@@ -51,6 +55,11 @@ def user_login(request):
 					return HttpResponseRedirect('/aluno_area/index.html')
 				else:
 					return HttpResponseRedirect('/tutor_area/index.html')
+			else:
+				context = {'erro': True, 
+				'mensagem_de_erro': "Username ou Senha Incorretos", 
+				'form': form}
+				return render(request, 'usuarios/login.html', context=context)
 	else:
 		form = LoginForm()
 	context_dict = {'form': form}
@@ -62,4 +71,25 @@ def restricted_area(request):
 
 def user_logout(request):
     logout(request)
-    return HttpResponseRedirect('/usuarios/index.html')
+    return HttpResponseRedirect('index.html')
+
+def validate_username(request):
+    username = request.GET.get('username', None)
+    exist_user = {
+        'users': User.objects.filter(username__iexact=username).exists()
+    }
+    return JsonResponse(exist_user)
+
+def validate_email(request):
+    email = request.GET.get('email', None)
+    exist_email = {
+        'emails': User.objects.filter(email__iexact=email).exists()
+    }
+    return JsonResponse(exist_email)
+
+def validate_matricula(request):
+    matricula = request.GET.get('matricula', None)
+    exist_matricula = {
+        'matriculas': Usuario.objects.filter(matricula__iexact=matricula).exists()
+    }
+    return JsonResponse(exist_matricula)
