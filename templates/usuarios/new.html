@@ -76,7 +76,7 @@
             </div>
 
         {% endif %}
-          <input  type="submit" value="Registrar" class="btn btn-lg btn-default btn-block" />
+          <input  type="submit" value="Registrar" class="btn btn-lg btn-default btn-block btn-login" />
 
         </fieldset>
     </form>
@@ -86,7 +86,6 @@
     <script>    
     $("#id_username").change(function () {
       var username = $(this).val();
-
       $.ajax({
         url: 'validate_username',
         data: {
@@ -185,9 +184,6 @@ $('.message').each(function(){
             '</div>'
         });
 	}
-
-
-
 </script>
 
 {% endblock javascript %}
