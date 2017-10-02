@@ -17,13 +17,13 @@
 		{% if erros %}
 		    {% for field in form %}
 		        {% for error in field.errors %}
-		            <div class="message" >
+		            <div class="message" style="display:none;" >
 		            {{error|escape}}
 		            </div>
 		        {% endfor %}
 		    {% endfor %}
 		    {% for error in form.non_field_errors %}
-		        <div class="message">
+		        <div class="message" style="display:none;">
 		         {{ error|escape}}<br>
 		        </div>
 		    {% endfor %}

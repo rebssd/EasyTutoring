@@ -1,5 +1,6 @@
 from django import forms
 from django.contrib.auth.models import User
+from .models import Usuario
 from easy_thumbnails.fields import ThumbnailerImageField
 from easy_thumbnails.files import get_thumbnailer
 from django.forms.widgets import ClearableFileInput
@@ -26,8 +27,21 @@ class UsuariosForm(forms.Form):
 		user_exists = User.objects.filter(username=self.data['login']).exists()
 
 		if user_exists:
-			self.adiciona_erro('Usuario ja existente.')
+			self.adiciona_erro('Usuario já cadastrado.')
 			valid = False
+
+		email_exists = User.objects.filter(email=self.data['email']).exists()
+
+		if email_exists:
+			self.adiciona_erro('Email já cadastrado.')
+			valid = False
+
+		matricula_exists = Usuario.objects.filter(matricula=self.data['matricula']).exists()
+
+		if matricula_exists:
+			self.adiciona_erro('Matricula já cadasrada.')
+			valid = False
+
 		return valid
 
 	def adiciona_erro(self, message):
