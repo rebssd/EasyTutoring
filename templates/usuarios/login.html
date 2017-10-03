@@ -5,41 +5,67 @@
 {% block titPage %}
     <title>EasyTutoring Login</title>
 {% endblock titPage %}
-
 {% block title %}
    <center><h3 class="panel-title"> BEM-VINDO AO EASYTUTORING, LOGUE-SE PARA ACESSAR</h3></center>
 {% endblock title %}
 
 {% block form %}
 
-						<form action="{% url 'usuarios:login' %}" method="post">
-							{% csrf_token %}
-                            <fieldset>
-                                <div class="form-group">
-								        {{ form.login.errors }}
-								        <label for="id_login">Username:</label>
-								        {{ form.login|add_class:"form-control" }}
-                                </div>
-                                <div class="form-group">
-								        {{ form.senha.errors }}
-								        <label for="id_senha">Senha:</label>
-								        {{ form.senha|add_class:"form-control" }}
-                                </div>
-                                <div class="checkbox">
-                                    <label>
-                                        <input name="remember" type="checkbox" value="Remember Me">Remember Me
-                                    </label>
-                                </div>
-                                 <div class="form-group">
-                                     <center><label>
-                                       <h5><a  href="{% url 'usuarios:new' %}">Não tem conta? Cadastra-se</a></h5></label></center>
-                                </div>
+	<form action="{% url 'usuarios:login' %}" method="post">
+		{% csrf_token %}
+        <fieldset>
+            <div class="form-group">
+			        {{ form.login.errors }}
+			        <label for="id_login">Username:</label>
+			        {{ form.login|add_class:"form-control" }}
+            </div>
+            <div class="form-group">
+			        {{ form.senha.errors }}
+			        <label for="id_senha">Senha:</label>
+			        {{ form.senha|add_class:"form-control" }}
+            </div>
+            <div class="checkbox">
+                <label>
+                    <input name="remember" type="checkbox" value="Remember Me">Remember Me
+                </label>
+            </div>
+             <div class="form-group">
+                 <center><label>
+                   <h5><a  href="{% url 'usuarios:new' %}">Não tem conta? Cadastra-se</a></h5></label></center>
+            </div>
 
+        {% if erro %}
+            <div id="erro" style="display:none;" >
+                {{mensagem_de_erro}}
+            </div>
+        {% endif %}
 
-                                <!-- Change this to a button or input when using this as a form -->
+            <!-- Change this to a button or input when using this as a form -->
 
-                                <input  type="submit" value="Acessar" class="btn btn-lg btn-success btn-block btn-login" />
+            <input  type="submit" value="Acessar" class="btn btn-lg btn-default btn-block btn-login" />
 
-                            </fieldset>
-                        </form>
+        </fieldset>
+
+    </form>
 {% endblock form %}
+
+{% block javascript %}
+    <script>
+        $("#erro").each(function () {
+            var message = $('#erro').text();
+        $.notify({
+            message: message,
+        },{
+            type: 'pastel-danger',
+            delay: 5000,
+            template: '<div data-notify="container" class="col-xs-11 col-sm-3 alert alert-{0}" role="alert">' +
+                '<span data-notify="title">{1}</span>' +
+                '<span data-notify="message">{2}</span>' +
+            '</div>'
+        });
+
+
+      });
+
+    </script>
+{% endblock javascript %}
