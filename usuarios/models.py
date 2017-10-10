@@ -23,3 +23,25 @@ class Usuario(models.Model):
 # 	pass
 
 # type(umprofessor)
+class Professor(Usuario):
+	pass
+	class Meta:
+		permissions = (
+			("pode_acessar_area_professor", "pode acessar area professor"),
+			("disciplina","pode fazer o crud de disciplina"),
+		)
+
+# type(umprofessor)
+class Aluno(Usuario):
+	pass
+	class Meta:
+		permissions= (
+			("pode_acessar_area_aluno", "pode acessar area aluno"),
+		)
+
+class Tutor(Usuario):
+	pass
+	class Meta:
+		permissions = (
+			("pode_acessar_area_tutor", "pode acessar area tutor"),
+		)

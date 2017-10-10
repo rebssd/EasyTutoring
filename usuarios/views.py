@@ -4,10 +4,11 @@ from .forms import UsuariosForm, LoginForm
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
-from .models import Usuario
+from .models import Usuario, Tutor, Professor, Aluno
 from django.contrib.auth import logout
-
 from django.http import JsonResponse
+from django.contrib.auth.decorators import permission_required
+from django.contrib.auth.models import Permission
 
 # Create your views here.
 def index(request):
@@ -29,7 +30,18 @@ def new(request):
 			img = form.cleaned_data['img']
 			new_user = User.objects.create_user(login, email=email, password=senha)
 			new_user.save()
-			new_profile = Usuario(user=new_user, nome_completo=nome_completo, tipo=tipo,  matricula=matricula, curso=curso,img=img,thumb=img)
+			if tipo == 'tutor' :
+				new_profile = Tutor(user=new_user, nome_completo=nome_completo, tipo=tipo,  matricula=matricula, curso=curso,img=img,thumb=img)
+				permission = Permission.objects.get(codename='pode_acessar_area_tutor')
+				new_user.user_permissions.add(permission)
+			elif tipo == 'aluno' :
+				new_profile = Aluno(user=new_user, nome_completo=nome_completo, tipo=tipo,  matricula=matricula, curso=curso,img=img,thumb=img)
+				permission = Permission.objects.get(codename='pode_acessar_area_aluno')
+				new_user.user_permissions.add(permission)
+			else :
+				new_profile = Professor(user=new_user, nome_completo=nome_completo, tipo=tipo,  matricula=matricula, curso=curso,img=img,thumb=img)
+				permission = Permission.objects.get(codename='pode_acessar_area_professor')
+				new_user.user_permissions.add(permission)
 			new_profile.save()
 			return HttpResponseRedirect('index.html')
 		else:
