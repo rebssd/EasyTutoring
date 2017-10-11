@@ -12,6 +12,16 @@ def index(request):
 	user = request.user
 	usuario = Usuario.objects.get(user=user)
 	context_dict = {'usuario': usuario}
-	if not (request.user.is_authenticated or request.user.has_perm('usuarios.pode_acessar_area_tutor')):
+	if not request.user.is_authenticated :
 		return redirect('%s?next=%s' % (settings.LOGIN_URL,request.path))
-	return render(request, 'tutor_area/index.html',context=context_dict)
+	verificarUser = verificarUsuario(request)
+	return render(request, verificarUser ,context=context_dict)
+
+
+def verificarUsuario(request):
+	if request.user.has_perm('usuarios.pode_acessar_area_professor'):
+		return 'professor_area/index.html'
+	elif request.user.has_perm('usuarios.pode_acessar_area_tutor'):
+		return  'tutor_area/index.html'
+	else:
+		return 'aluno_area/index.html'
