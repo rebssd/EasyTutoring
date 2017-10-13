@@ -42,6 +42,8 @@ def new(request):
 				new_profile = Professor(user=new_user, nome_completo=nome_completo, tipo=tipo,  matricula=matricula, curso=curso,img=img,thumb=img)
 				permission = Permission.objects.get(codename='pode_acessar_area_professor')
 				new_user.user_permissions.add(permission)
+				permission = Permission.objects.get(codename='disciplina')
+				new_user.user_permissions.add(permission)
 			new_profile.save()
 			return HttpResponseRedirect('index.html')
 		else:

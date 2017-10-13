@@ -1,18 +1,19 @@
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
-from usuarios.models import Usuario
+from usuarios.models import Usuario, Professor
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login
 from django.http import HttpResponseRedirect
 from django.contrib.auth.decorators import permission_required
 from django.shortcuts import redirect
+from django.contrib import messages
 
 
 # Create your views here.
 @login_required
 def index(request):
 	user = request.user
-	usuario = Usuario.objects.get(user=user)
+	usuario = Professor.objects.get(user=user)
 	context_dict = {'usuario': usuario}
 	# if not request.user.is_authenticated:
 	if not request.user.is_authenticated:

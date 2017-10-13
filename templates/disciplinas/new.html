@@ -1,1 +1,52 @@
-<h1>oi</h1>
+
+{% extends "professor_area/index.html" %}
+
+{% load widget_tweaks %}
+
+{% block pageHeader %}
+    <h2 class="page-header">Cadastrar Disciplina</h2>
+{% endblock pageHeader %}
+{% block form %}
+	<form action="{% url 'disciplinas:new' %}" method="post">
+		{% csrf_token %}
+        <fieldset>
+            <div class="form-group">
+			        <label for="id_nome">Nome:</label>
+			        {{form.nome|add_class:"form-control"}}
+            </div>
+          <input  type="submit" value="Cadastrar" class="btn btn-lg btn-default btn-block btn-login" />
+
+        </fieldset>
+    </form>
+    {% if messages %}
+        <ul class="messages">
+            {% for message in messages %}
+            <li{% if message.tags %} class="{{ message.tags }}" style="display:none;" {% endif %}>{{ message }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+
+
+{% endblock form %}
+
+{% block javascript %}
+       <script>
+        $(".error").each(function () {
+            var message = $('.error').text();
+        $.notify({
+            message: message,
+        },{
+            type: 'pastel-danger',
+            delay: 3000,
+            template: '<div data-notify="container" class="col-xs-11 col-sm-3 alert alert-{0}" role="alert">' +
+                '<span data-notify="title">{1}</span>' +
+                '<span data-notify="message">{2}</span>' +
+            '</div>'
+        });
+
+
+      });
+
+    </script>
+
+{% endblock javascript %}
