@@ -1,9 +1,13 @@
 from django import forms
 from .models import Disciplina
+from django.forms import ModelForm
 
 
 class DisciplinaForm(forms.Form):
 	nome = forms.CharField(label='Nome', max_length=150)
+	class Meta:
+		model = Disciplina
+		fields = ['nome']
 	def is_valid(self):
 		valid = True
 		if not super(DisciplinaForm, self).is_valid():
