@@ -34,6 +34,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'turmas.apps.TurmasConfig',
     'disciplinas.apps.DisciplinasConfig',
     'professor_area.apps.ProfessorAreaConfig',
     'tutor_area.apps.TutorAreaConfig',

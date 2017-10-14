@@ -21,6 +21,7 @@ from django.conf.urls.static import static
 urlpatterns = [
     url(r'^', include('usuarios.urls')),
     url(r'^aluno_area/', include('aluno_area.urls')),
+    url(r'^turmas/', include('turmas.urls')),
     url(r'^disciplinas/', include('disciplinas.urls')),
     url(r'^professor_area/', include('professor_area.urls')),
     url(r'^tutor_area/', include('tutor_area.urls')),
