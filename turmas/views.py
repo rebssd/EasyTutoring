@@ -31,3 +31,28 @@ def new(request):
 
 	form = TurmaForm()
 	return render(request, 'turmas/new.html', {'form': form, 'usuario':usuario})
+
+def todasTurmas(request):
+	user = request.user
+	usuario = Professor.objects.get(user=user)
+	if request.user.has_perm('usuarios.disciplina'):
+		t = Turma.objects.all()
+		turmas=[]
+		for turma in t :
+			if turma.professor.id == usuario.id:
+				turmas.append(turma)
+		return render(request, 'turmas/todasTurmas.html', {'turmas': turmas, 'usuario': usuario})
+	else:
+		verificaUsuario = verificarUsuario(request)
+		return render(request, verificaUsuario)
+
+
+def verificarUsuario(request):
+	if request.user.has_perm('usuarios.pode_acessar_area_professor'):
+		return 'professor_area/index.html'
+	elif request.user.has_perm('usuarios.pode_acessar_area_tutor'):
+		return  'tutor_area/index.html'
+	else:
+		return 'aluno_area/index.html'
+
+
