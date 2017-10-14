@@ -46,6 +46,33 @@ def todasTurmas(request):
 		verificaUsuario = verificarUsuario(request)
 		return render(request, verificaUsuario)
 
+@login_required
+def edit(request,turma_id):
+	user = request.user
+	usuario = Professor.objects.get(user=user)
+	turma = Turma.objects.get(pk=turma_id)
+	if request.method == "POST":
+		form = TurmaForm(request.POST )
+		if form.is_valid():
+			codigo = form.cleaned_data['codigo']
+			disciplina = form.cleaned_data['disciplina']
+			tutor = form.cleaned_data['tutor']
+			alunos = form.cleaned_data['alunos']
+			turma.codigo = codigo
+			turma.disciplina = disciplina
+			turma.tutor = tutor
+			turma.alunos = alunos
+			messages.add_message(request, messages.INFO, 'Turma atualizada com sucesso.')
+			turma.save()
+			return redirect('/turmas/todasTurmas.html')
+		else:
+			messages.add_message(request, messages.ERROR, 'Não foi possível atualizar.')
+	else:
+		dados_turma = {'codigo': turma.codigo, 'disciplina': turma.disciplina, 'tutor':turma.tutor, 'alunos':turma.alunos.all()}
+		form = TurmaForm(initial=dados_turma)
+	return render(request, 'turmas/edit.html', {'form': form, 'turma':turma})
+
+
 
 def verificarUsuario(request):
 	if request.user.has_perm('usuarios.pode_acessar_area_professor'):

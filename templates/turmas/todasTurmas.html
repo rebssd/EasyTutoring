@@ -29,7 +29,7 @@
                         <tr>
                             <td>{{turma.codigo}}</td>
                             <td>{{turma.tutor}}</td>
-                            <td><a  href="#"> <button type="button" class="btn btn-info btn-circle"><i class="fa fa-edit"></i>
+                            <td><a  href="{% url 'turmas:edit' turma.id %}"> <button type="button" class="btn btn-info btn-circle"><i class="fa fa-edit"></i>
         </button></a></td>
                         </tr>
 					{% endfor %}

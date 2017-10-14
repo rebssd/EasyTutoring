@@ -11,7 +11,7 @@ class DisciplinaForm(forms.Form):
 	def is_valid(self):
 		valid = True
 		if not super(DisciplinaForm, self).is_valid():
-			self.adiciona_erro('Disciplina já cadastradaxzczxczxczxcxz.')
+			self.adiciona_erro('Disciplina já cadastrada.')
 			valid = False
 		disciplina_exist = Disciplina.objects.filter(nome=(self.data['nome']).lower()).exists()
 		if disciplina_exist:
