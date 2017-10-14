@@ -5,4 +5,6 @@ from . import views
 app_name = 'aluno_area'
 urlpatterns = [
     url(r'^index', views.index, name='index'),
+    url(r'^todasTurmas', views.todasTurmas, name='todasTurmas'),
+
 ]

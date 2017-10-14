@@ -1,5 +1,11 @@
 {% extends "professor_area/index.html" %}
+{% load static  %}
 
+{% block ref %}
+    <link href="{% static 'css/notify/bootstrap-notify.css' %}" rel="stylesheet" type="text/css">
+
+<link rel="stylesheet" href="http://code.jquery.com/ui/1.8.18/themes/base/jquery-ui.css" type="text/css" media="all" />
+{% endblock ref %}
 {% load widget_tweaks %}
 
 {% block pageHeader %}
@@ -13,9 +19,22 @@
 	        {% endfor %}
 	    </ul>
 	{% endif %}
-
+<div class="form-group input-group">
+  <input type="text" id="texto" class="form-control">
+  <span class="input-group-btn">
+      <button class="btn btn-default" id="adicionar" type="button"><i class="fa fa-plus"></i>
+      </button>
+  </span>
+</div>
+<!-- <div class="form-group">
+  <label for="id_codigo">Adicionar Alunos:</label>
+  <input id="texto" class="form-control" name="message_name" type="text" />
+  <button id="adicionar"> submeter</button>
+</div>
+ -->
 	<form action="{% url 'turmas:edit' turma.id %}" method="POST" enctype="multipart/form-data">
 	{% csrf_token %}
+
             <div class="form-group">
                     <label for="id_codigo">Codigo Turma:</label>
                     {{form.codigo|add_class:"form-control"}}
@@ -28,17 +47,20 @@
                     <label for="id_tutor">Tutor:</label>
                     {{form.tutor|add_class:"form-control"}}
             </div>
-            <div class="form-group">
-                    <label for="id_aluno">Alunos:</label>
-                    {{form.alunos|add_class:"form-control"}}
-            </div>
-      <input  type="submit" value="Editar" class="btn btn-lg btn-default btn-block btn-login" />
+<!--             <div class="form-group">
+              <label for="id_aluno">Alunos:</label>
+              {{form.alunos|add_class:"form-control"}}
+      </div>
+       -->      <center><input  type="submit" value="Editar" class="btn btn-default btn-sm btn-login" /></center>
 
 </form>
 
 {% endblock form %}
 
 {% block javascript %}
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js"></script>
+<script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.2/jquery-ui.min.js"></script>
+
        <script>
         $(".error").each(function () {
             var message = $('.error').text();
@@ -57,8 +79,65 @@
       });
 
     </script>
-    <script>
-        $('#id_disciplina').attr("{turma.disciplina}", "{{turma.disciplina}}");
 
-    </script>
+<script>
+$(function() {
+    $("#texto").autocomplete({
+      source: "/turmas/autocomplete/",
+      select: function (event, ui) { 
+        AutoCompleteSelectHandler(event, ui)
+      },
+      minLength: 2,
+    });
+  });
+
+  function AutoCompleteSelectHandler(event, ui)
+  {
+    var selectedObj = ui.item;
+  }
+
+</script>
+    <script>    
+    $("#adicionar").click(function () {
+      var nome = $('#texto').val();
+      $.ajax({
+        url: '/turmas/adicionarAlunos/',
+        data: {
+          'nome': nome,
+          'turma': {{turma.id}}
+        },
+        dataType: 'json',
+        success: function (exists) {
+          if (exists.cadastrado) {
+            $.notify({
+            message: 'O usuário foi adicionado com sucesso!'
+        },{
+            type: 'pastel-success',
+            delay: 1000,
+            template: '<div data-notify="container" class="col-xs-11 col-sm-3 alert alert-{0}" role="alert">' +
+                '<span data-notify="title">{1}</span>' +
+                '<span data-notify="message">{2}</span>' +
+            '</div>'
+        });
+          }
+        else{
+            $.notify({
+            message: exists.message
+        },{
+            type: 'pastel-danger',
+            delay: 1000,
+            template: '<div data-notify="container" class="col-xs-11 col-sm-3 alert alert-{0}" role="alert">' +
+                '<span data-notify="title">{1}</span>' +
+                '<span data-notify="message">{2}</span>' +
+            '</div>'
+        });
+          }
+        }
+      });
+
+    });
+</script>
+    <script src="{% static 'js/notify/bootstrap-notify.js' %}"></script>
+    <script src="{% static 'js/notify/bootstrap-notify.min.js' %}"></script>
+
 {% endblock javascript %}

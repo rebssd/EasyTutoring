@@ -8,7 +8,7 @@ class TurmaForm(forms.Form):
 	codigo = forms.CharField(label='codigo', max_length=150)
 	disciplina = forms.ModelChoiceField(queryset=Disciplina.objects.all().order_by('nome'))
 	tutor = forms.ModelChoiceField(queryset=Tutor.objects.all().order_by('nome_completo'))
-	alunos = forms.ModelMultipleChoiceField(queryset=Aluno.objects.all().order_by('nome_completo'))
+	# alunos = forms.ModelMultipleChoiceField(queryset=Aluno.objects.all().order_by('nome_completo'))
 
 	def is_valid(self):
 		valid = True

@@ -38,7 +38,6 @@ class Aluno(Usuario):
 		permissions= (
 			("pode_acessar_area_aluno", "pode acessar area aluno"),
 		)
-
 class Tutor(Usuario):
 	pass
 	class Meta:
