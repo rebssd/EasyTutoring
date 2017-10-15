@@ -100,6 +100,7 @@ $(function() {
     <script>    
     $("#adicionar").click(function () {
       var nome = $('#texto').val();
+      $('#texto').val('');
       $.ajax({
         url: '/turmas/adicionarAlunos/',
         data: {

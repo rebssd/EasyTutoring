@@ -12,7 +12,7 @@ from turmas.forms import TurmaForm
 @login_required
 def index(request):
 	user = request.user
-	usuario = Aluno.objects.get(user=user)
+	usuario = Usuario.objects.get(user=user)
 	context_dict = {'usuario': usuario}
 	if not request.user.is_authenticated :
 		return redirect('%s?next=%s' % (settings.LOGIN_URL,request.path))
