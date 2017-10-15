@@ -1,16 +1,17 @@
 
 
 .btn-login{
-	border:1px solid #ffe924;
-	padding:9px 18px;
+	border:1px solid black;
 	background:-webkit-gradient( linear, left top, left bottom, color-stop(5%, #fffd8f), color-stop(100%, #fff175) );
 	background-color:#fffd8f;
 	text-shadow:1px 1px 0px #fff766;
  	box-shadow:inset 1px 1px 0px 0px #faf87f;
 }.btn-login:hover {
+	border:1px solid black;
 	background:-webkit-gradient( linear, left top, left bottom, color-stop(5%, #fff175), color-stop(100%, #fffd8f) );
 	background-color:#fff175;
 }.btn-login:active {
+	border:1px solid black;
 	position:relative;
 	top:1px;
 }

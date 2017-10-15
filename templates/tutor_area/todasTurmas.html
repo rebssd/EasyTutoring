@@ -1,4 +1,7 @@
-{% extends "professor_area/index.html" %}
+{% extends "tutor_area/index.html" %}
+{% block principal %}
+    <a class="navbar-brand" href="{% url 'tutor_area:index' %}">EASYTUTORING</a>
+{% endblock principal %}
 
 {% load widget_tweaks %}
 
@@ -20,16 +23,20 @@
                 <thead>
                     <tr>
                         <th>Codigo da Turma</th>
-                        <th>Número de Alunos</th>
-                        <th>Editar</th>
+                        <th>Disciplina</th>
+                        <th>Professor</th>
+
+                        <th>Entrar</th>
                     </tr>
                 </thead>
                 <tbody>
                     {% for turma in turmas %}
                         <tr>
                             <td>{{turma.codigo}}</td>
-                            <td>{{turma.tutor}}</td>
-                            <td><a  href="#"> <button type="button" class="btn btn-info btn-circle"><i class="fa fa-edit"></i>
+                            <td>{{turma.disciplina}}</td>
+                            <td>{{ turma.professor }}</td>
+                            <td><a  href="{% url 'tutor_area:turmaArea' turma.id %}"> <button type="button" class="btn btn-info btn-circle"><i class="glyphicon glyphicon-new-window  
+"></i>
         </button></a></td>
                         </tr>
                     {% endfor %}

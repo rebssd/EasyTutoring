@@ -1,0 +1,34 @@
+{% extends "tutor_area/turmaArea.html" %}
+{% block pageHeader %}
+    <h2 class="page-header">Alunos</h2>
+{% endblock pageHeader %}
+
+{% block form %}
+    <div class="panel-body">
+        <div class="table-responsive table-bordered">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Matricula</th>
+                        <th>Nome Completo</th>
+                        <th>Curso</th>
+                    </tr>
+                </thead>
+                <tbody>
+                	{% for aluno in alunos %}
+                        <tr>
+                            <td><img src="{{ aluno.thumb.url}}" style="width:40px; height:40px; border:1px solid black;" class= "img-circle"/></td>
+                            <td>{{aluno.matricula}}</td>
+                            <td>{{aluno.nome_completo}}</td>
+                             <td>{{aluno.curso}}</td>
+
+                        </tr>
+					{% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <!-- /.table-responsive -->
+    </div>
+
+{% endblock form %}
