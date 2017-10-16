@@ -3,10 +3,13 @@
  * Copyright 2013-2016 Start Bootstrap
  * Licensed under MIT (https://github.com/BlackrockDigital/startbootstrap/blob/gh-pages/LICENSE)
  */.chat,.timeline{list-style:none}
- body{background-color:#f8f8f8}
+ body{background-color:#222}
  #wrapper{width:100%}
- #page-wrapper{padding:0 15px;min-height:568px;background-color:#fff}@media (min-width:768px){#page-wrapper{position:inherit;margin:0 0 0 250px;padding:0 30px;border-left:1px solid #e7e7e7}}
+ #page-wrapper{padding:0 15px;min-height:568px;background-color:#fff}@media (min-width:768px){#page-wrapper{position:inherit;margin:0 0 0 250px;padding:0 30px;border-left:1px solid #222}}
  .navbar-top-links{margin-right:0}
+ .navbar-default{
+ 	background-color: #222;
+ }
  .navbar-top-links li{display:inline-block}
  .flot-chart,.navbar-top-links .dropdown-menu li{display:block}
  .navbar-top-links li:last-child{margin-right:15px}
@@ -21,7 +24,7 @@
  .navbar-top-links .dropdown-user{right:0;left:auto}
  .sidebar .sidebar-nav.navbar-collapse{padding-left:0;padding-right:0}
  .sidebar .sidebar-search{padding:15px}
- .sidebar ul li{border-bottom:1px solid #e7e7e7}
+ .sidebar ul li{border-bottom:1px solid #222}
  .sidebar ul li a.active{background-color:#eee}
  .sidebar .arrow{float:right}
  .sidebar .fa.arrow:before{content:"\f104"}

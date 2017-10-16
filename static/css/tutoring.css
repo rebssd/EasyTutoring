@@ -15,3 +15,12 @@
 	position:relative;
 	top:1px;
 }
+
+.navbar-inside{
+	background-color: #222;
+	color:#fbe700;
+}
+#link-color{
+	color: #fbe700;
+}
+
