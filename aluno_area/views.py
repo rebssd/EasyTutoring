@@ -33,7 +33,24 @@ def todasTurmas(request):
 	usuario = Aluno.objects.get(user=user)
 	if request.user.has_perm('usuarios.pode_acessar_area_aluno'):
 		turmas = Turma.objects.filter(alunos__id=usuario.id)
-		return render(request, 'tutor_area/todasTurmas.html', {'turmas': turmas, 'usuario': usuario})
+		return render(request, 'aluno_area/todasTurmas.html', {'turmas': turmas, 'usuario': usuario})
 	else:
 		verificaUsuario = verificarUsuario(request)
 		return render(request, verificaUsuario)
+
+def turmaArea(request,turma_id):
+	user = request.user
+	usuario = Usuario.objects.get(user=user)
+	turma = Turma.objects.get(pk=turma_id)
+	alunos = turma.alunos.all()
+	return render(request, 'aluno_area/turmaArea.html', {'turma': turma, 'alunos': alunos, 'usuario':usuario})
+
+def listAlunos(request,turma_id):
+	user = request.user
+	usuario = Usuario.objects.get(user=user)
+	turma = Turma.objects.get(pk=turma_id)
+	alunos = turma.alunos.all()
+	context= {'turma': turma, 
+	'alunos': alunos, 
+	'usuario':usuario}
+	return render(request, 'aluno_area/listAlunos.html', context=context)
