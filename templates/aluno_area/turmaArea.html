@@ -5,7 +5,7 @@
 {% endblock title %}
 
 {% block principal %}
-    <a class="navbar-brand" href="{% url 'tutor_area:index' %}">EASYTUTORING</a>
+    <a class="navbar-brand" href="{% url 'tutor_area:index' %}" id="link-color">EASYTUTORING</a>
 {% endblock principal %}
 {% block barraLateral %}
                 <div class="navbar-default sidebar" role="navigation">
@@ -13,23 +13,23 @@
                     <ul class="nav" id="side-menu">
                         <br>
                        <center><p><img src="{{ usuario.thumb.url}}" class= "img-circle"/> </p></center>
-                        <li>
-                            <a href="#"><i class="fa fa-sitemap fa-fw"></i> Informações da Turma<span class="fa arrow"></span></a>
+                        <li class="itens-menu">
+                            <a href="#" id="link-color"><i class="fa fa-sitemap fa-fw"></i> Informações da Turma<span class="fa arrow"></span></a>
                             <ul class="nav nav-second-level">
-                               <li>
-                                    <a href="{% url 'aluno_area:listAlunos' turma.id %}">Ver Turma</a>
+                               <li class="itens-menu">
+                                    <a href="{% url 'aluno_area:listAlunos' turma.id %}" id="link-color">Ver Turma</a>
                                 </li>
                             </ul>
                             <!-- /.nav-second-level -->
                         </li>
-                        <li>
-                            <a href="#"><i class="fa fa-files-o fa-fw"></i>Forum<span class="fa arrow"></span></a>
+                        <li class="itens-menu">
+                            <a href="#" id="link-color"><i class="fa fa-files-o fa-fw" ></i>Forum<span class="fa arrow"></span></a>
                             <ul class="nav nav-second-level">
                                 <li>
-                                    <a href="#">Ver Notícias</a>
+                                    <a href="#" id="link-color">Ver Notícias</a>
                                 </li>
                                 <li>
-                                    <a href="#">Criar Postagem</a>
+                                    <a href="#" id="link-color">Criar Postagem</a>
                                 </li>
                             </ul>
                             <!-- /.nav-second-level -->
