@@ -23,4 +23,10 @@
 #link-color{
 	color: #feed23;
 }
+#side-menu li.itens-menu a:hover{
+	background-color: #373737;
+}
 
+.nav li.itens-menu a:hover{
+	background-color: #3e3e3e;
+}
