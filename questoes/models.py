@@ -12,3 +12,5 @@ class Questao(models.Model):
 	resposta = models.CharField(max_length=200)
 	observacao = models.CharField(max_length=200)
 
+	def __str__(self):
+		return self.enunciado

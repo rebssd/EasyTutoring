@@ -1,5 +1,45 @@
 {% extends "professor_area/index.html" %}
+{% load widget_tweaks %}
+{% block pageHeader %}
+    <h2 class="page-header">Cadastrar Questionario</h2>
+{% endblock pageHeader %}
 
 {% block form %}
-   <h2>oi</h2>
+	<form action="{% url 'questionarios:new' %}" method="post">
+		{% csrf_token %}
+        <fieldset>
+            <div class="form-group">
+			        <label for="id_codigo">Codigo Do Questionário:</label>
+			        {{form.codigo|add_class:"form-control"}}
+            </div>
+             <div class="form-group">
+			        <label for="id_disciplina">Disciplinas:</label>
+			        {{form.disciplina|add_class:"form-control"}}
+            </div>
+            <div class="form-group">
+			        <label for="id_assunto">Assunto:</label>
+			        {{form.assunto|add_class:"form-control"}}
+            </div>
+            <div class="form-group">
+			        <label for="id_questoes">Questões:</label>
+			        {{form.questoes|add_class:"form-control"}}
+            </div>
+
+<!--             <div class="form-group">
+                    <label for="id_aluno">Alunos:</label>
+                    {{form.alunos|add_class:"form-control"}}
+</div>
+ -->
+            <center><input  type="submit" value="Cadastrar" class="btn btn-default btn-lg btn-login" /></center>
+        </fieldset>
+    </form>
+    {% if messages %}
+        <ul class="messages">
+            {% for message in messages %}
+            <li{% if message.tags %} class="{{ message.tags }}" style="display:none;" {% endif %}>{{ message }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+
+
 {% endblock form %}

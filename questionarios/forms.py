@@ -9,7 +9,7 @@ class QuestionarioForm(forms.Form):
 	codigo = forms.CharField( max_length=50)
 	disciplina = forms.ModelChoiceField(queryset=Disciplina.objects.all().order_by('nome'))
 	assunto = forms.CharField(max_length=100)
-	questaos = forms.ModelMultipleChoiceField(queryset=Questao.objects.all().order_by('enunciado'))
+	questoes = forms.ModelMultipleChoiceField(queryset=Questao.objects.all().order_by('enunciado'))
 
 	def is_valid(self):
 		valid = True
