@@ -1,0 +1,65 @@
+{% extends "professor_area/index.html" %}
+{% load widget_tweaks %}
+{% block pageHeader %}
+    <h2 class="page-header">Cadastrar Questão</h2>
+{% endblock pageHeader %}
+
+{% block form %}
+	<form action="{% url 'questoes:new' %}" method="post">
+		{% csrf_token %}
+        <fieldset>
+            <div class="form-group">
+			        <label for="id_codigo">Enunciado Da Questão:</label>
+			        {{form.enunciado|add_class:"form-control"}}
+            </div>
+             <div class="form-group">
+			        <label for="id_assunto">Assunto:</label>
+			        {{form.assunto|add_class:"form-control"}}
+            </div>
+            <div class="form-group">
+			        <label for="id_a">Alternativa A:</label>
+			        {{form.letra_a|add_class:"form-control"}}
+            </div>
+             <div class="form-group">
+			        <label for="id_b">Alternativa B:</label>
+			        {{form.letra_b|add_class:"form-control"}}
+            </div>
+            <div class="form-group">
+			        <label for="id_c">Alternativa C:</label>
+			        {{form.letra_c|add_class:"form-control"}}
+            </div>
+            <div class="form-group">
+			        <label for="id_d">Alternativa D:</label>
+			        {{form.letra_d|add_class:"form-control"}}
+            </div>
+            <div class="form-group">
+            	<label for="id_resposta">Resposta :</label><br>
+					{% for choice in form.resposta %}
+						  <div class="radio-inline">{{ choice.choice_label }}{{ choice.tag}}</div> {# Or any other type you want. #}
+					{% endfor %}
+</div>
+            <div class="form-group">
+			        <label for="id_observacao">Observação:</label>
+			        {{form.observacao|add_class:"form-control"}}
+            </div>
+
+
+
+<!--             <div class="form-group">
+                    <label for="id_aluno">Alunos:</label>
+                    {{form.alunos|add_class:"form-control"}}
+</div>
+ -->
+            <center><input  type="submit" value="Cadastrar" class="btn btn-default btn-lg btn-login" /></center>
+        </fieldset>
+    </form>
+    {% if messages %}
+        <ul class="messages">
+            {% for message in messages %}
+            <li{% if message.tags %} class="{{ message.tags }}" style="display:none;" {% endif %}>{{ message }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+
+
+{% endblock form %}
