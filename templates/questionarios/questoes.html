@@ -1,3 +1,6 @@
+    <hr>
+    <center><h4><i class="fa fa-question" aria-hidden="true"></i>
+Questões</h4></center>
     <div class="panel-body">
         <div class="table-responsive table-bordered">
             <table class="table">
@@ -36,7 +39,19 @@
             success : function(exists) {
                 var id = "#"+question
                  $(id).hide();
-             }
+                if (exists.cadastrado) {
+                  $.notify({
+                  message: exists.message
+                },{
+                    type: 'pastel-success',
+                    delay: 3000,
+                    template: '<div data-notify="container" class="col-xs-11 col-sm-3 alert alert-{0}" role="alert">' +
+                        '<span data-notify="title">{1}</span>' +
+                        '<span data-notify="message">{2}</span>' +
+                    '</div>'
+                });
+              }
+               }
 
           });
 

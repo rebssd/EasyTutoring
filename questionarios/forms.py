@@ -1,6 +1,6 @@
 from django import forms
 from .models import Questionario
-from disciplinas.models import Disciplina
+from turmas.models import Turma
 from usuarios.models import Tutor,Aluno,Professor
 from django.forms import ModelForm
 from questoes.models import Questao
@@ -8,8 +8,7 @@ from assuntos.models import Assunto
 
 class QuestionarioForm(forms.Form):
 	codigo = forms.CharField( max_length=50)
-	disciplina = forms.ModelChoiceField(queryset=Disciplina.objects.all().order_by('nome'))
-	questoes = forms.ModelMultipleChoiceField(queryset=Questao.objects.all().order_by('enunciado'))
+	turma = forms.ModelChoiceField(queryset=Turma.objects.all())
 
 	def is_valid(self):
 		valid = True

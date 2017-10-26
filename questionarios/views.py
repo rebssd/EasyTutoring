@@ -4,6 +4,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import Permission
 from disciplinas.models import Disciplina
+from turmas.models import Turma
 from disciplinas.forms import DisciplinaForm
 from .models import Questionario
 from .forms import QuestionarioForm
@@ -26,11 +27,8 @@ def new(request):
 			form = QuestionarioForm(request.POST)
 			if form.is_valid():
 				codigo = form.cleaned_data['codigo']
-				disciplina = form.cleaned_data['disciplina']
-				questoes = form.cleaned_data['questoes']
-				questionario = Questionario(codigo=codigo,disciplina=disciplina,professor=usuario)
-				questionario.save()
-				questionario.questoes = questoes
+				turma = form.cleaned_data['turma']
+				questionario = Questionario(codigo=codigo,turma=turma,professor=usuario)
 				questionario.save()
 				messages.add_message(request, messages.INFO, 'Questionario cadastrada com sucesso.')
 				return HttpResponseRedirect('/professor_area/index.html')
@@ -60,7 +58,8 @@ def cadastrarQuestoes(request,questionario_id):
 	user = request.user
 	usuario = Professor.objects.get(user=user)
 	questionario = Questionario.objects.get(pk=questionario_id)
-	disciplina = questionario.disciplina
+	turma = questionario.turma
+	disciplina = turma.disciplina
 	assuntos = Assunto.objects.filter(disciplina_id=disciplina)
 	# dados = {'codigo': questionario.codigo,'assunto':questionario.assunto ,'disciplina': questionario.disciplina, 'professor':questionario.professor, 'questoes':questionario.questoes.all()}
 
@@ -83,7 +82,7 @@ def addquestao(request,questionario_id):
 		questionario.save()
 		exists = {
 		'cadastrado': True,
-		'message': 'Questão cadastrada.'
+		'message': 'Questão cadastrada com sucesso.'
 		}
 	except:
 		exists = {
