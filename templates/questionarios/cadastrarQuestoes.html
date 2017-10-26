@@ -4,40 +4,43 @@
     <h2 class="page-header">Cadastrar Questões</h2>
 {% endblock pageHeader %}
 {% block form %}
-    {% for assunto in assuntos %}
-      <h1>{{ assunto.nome }}</h1>
-    {% endfor %}
+<div class="form-group col-sm-8">
+
+   <label id="lb-shift">Assuntos</label> <br>
+   <div class="form-group col-sm-8">
+
+       <select id="selecao" class="form-control">
+
+        {% for assunto in assuntos %}
+           <option >{{ assunto.nome }}</option>
+        {% endfor %}
+       </select>
+      </div>        <button class="btn btn-default btn-login"  id="adicionar" type="button" style="magin:10px;"><i class="fa fa-search"></i>
+      </button>
+
+</div>      
+<div id="results" class="form-group col-sm-12">
+      
+    </div>
 {% endblock form %}
 
 
 {% block javascript %}
  <script>
-$(document).ready(function () {
-    $("#id_assunto").change(function () {
-      var assunto = $(this).val();
+    $("#adicionar").click(function () {
+      var assunto = $("#selecao").val();
       $.ajax({
-        url: 'questionarios:assunto',
+        url: 'assunto',
         data: {
-          'assunto': assunto
+          'assunto': assunto,
+          'questionario': {{questionario.id}}
         },
-        dataType: 'json',
-        success: function (exist_user) {
-          if (exist_user.users) {
-            $.notify({
-            message: 'O usuário já existe, por favor utilize outro username!'
-        },{
-            type: 'pastel-warning',
-            delay: 4000,
-            template: '<div data-notify="container" class="col-xs-11 col-sm-3 alert alert-{0}" role="alert">' +
-                '<span data-notify="title">{1}</span>' +
-                '<span data-notify="message">{2}</span>' +
-            '</div>'
-        });
-          }
-        }
+        success : function(html) {
+             $('#results').html(html);
+         }
+
       });
 
     });
- });
 </script>
 {% endblock javascript %}

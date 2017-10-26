@@ -51,6 +51,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'widget_tweaks',
     'easy_thumbnails',
+    'bootstrap3',
 ]
 
 

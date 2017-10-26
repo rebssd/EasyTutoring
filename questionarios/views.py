@@ -7,11 +7,16 @@ from disciplinas.models import Disciplina
 from disciplinas.forms import DisciplinaForm
 from .models import Questionario
 from .forms import QuestionarioForm
+from questoes.forms import QuestaoForm
+from questoes.models import Questao
 from assuntos.models import Assunto
 from assuntos.forms import AssuntoForm
 from django.http import HttpResponseRedirect
 from django.contrib import messages
-# Create your views here.
+from django.http import HttpResponse
+from django.http import JsonResponse
+import json
+from django.template.loader import render_to_string
 
 def new(request):
 	user = request.user
@@ -41,13 +46,15 @@ def todosQuestionarios(request):
 	questionarios = Questionario.objects.all()
 	return render(request,'questionarios/todosQuestionarios.html',{'usuario':usuario,'questionarios':questionarios})
 
-def assunto(request):
-    assunto = request.GET.get('assunto', None)
-    questoes = Question.objects.filter(assunto_ixact=assunto)
-    questoes_assunto = {
-        'questoes': questoes
-    }
-    return JsonResponse(questoes_assunto)
+def assunto(request,questionario_id):
+	a = request.GET.get('assunto', '')
+	q = request.GET.get('questionario','')
+	questionario = Questionario.objects.get(pk=questionario_id)
+	assunto = Assunto.objects.get(nome=a)
+	questoes = Questao.objects.filter(assunto_id=assunto)
+	html = render_to_string('questionarios/questoes.html',{'assunto':assunto, 'questionario':questionario,'questoes':questoes})
+	return HttpResponse(html)
+
 
 def cadastrarQuestoes(request,questionario_id):
 	user = request.user
@@ -56,6 +63,31 @@ def cadastrarQuestoes(request,questionario_id):
 	disciplina = questionario.disciplina
 	assuntos = Assunto.objects.filter(disciplina_id=disciplina)
 	# dados = {'codigo': questionario.codigo,'assunto':questionario.assunto ,'disciplina': questionario.disciplina, 'professor':questionario.professor, 'questoes':questionario.questoes.all()}
-	return render(request, 'questionarios/cadastrarQuestoes.html', {'questionario':questionario,'assuntos':assuntos, 'usuario':usuario})
+
+	return render(request, 'questionarios/cadastrarQuestoes.html', {'questionario':questionario,'assuntos':assuntos,'usuario':usuario})
 
 
+def questoes(request,assunto_id,questionario_id):
+	assunto = Assunto.objects.get(pk=assunto_id)
+	questionario= Questionario.objects.get(pk=questionario_id)
+	questoes = Questao.objects.filter(assunto_id=assunto)
+	return render(request,'questionarios/questoes.html',{'assunto':assunto,'questionario':questionario,'questoes':questoes})
+
+def addquestao(request,questionario_id):
+	try:
+		q = request.GET.get('question','')
+		questao = Questao.objects.get(pk=q)
+		quest = request.GET.get('questionario','')
+		questionario = Questionario.objects.get(pk=quest)
+		questionario.questoes.add(questao)
+		questionario.save()
+		exists = {
+		'cadastrado': True,
+		'message': 'Questão cadastrada.'
+		}
+	except:
+		exists = {
+		'cadastrado': False,
+		'message': 'Não foi possível cadastrar à questão.'
+		}
+	return JsonResponse(exists)

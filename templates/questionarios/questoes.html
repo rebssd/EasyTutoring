@@ -1,0 +1,48 @@
+    <div class="panel-body">
+        <div class="table-responsive table-bordered">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Enunciado</th>
+                        <th>Adicionar</th>
+
+                    </tr>
+                </thead>
+                <tbody>
+                	{% for questao in questoes %}
+                        <tr id="{{questao.id}}">
+                            <td>{{questao.enunciado}}</td>
+    <td><input id="checar" type="checkbox"  value="{{questao.id}}" /></td>
+                        </tr>
+					{% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <!-- /.table-responsive -->
+    </div>
+
+{% block javascript %}
+ <script>
+    $(document).ready(function() {
+        $("tbody tr td #checar").click(function () {
+          var question = $(this).val();
+          $.ajax({
+            url: 'addquestao',
+            data: {
+              'question': question,
+              'questionario': {{questionario.id}},
+              'assunto': {{assunto.id}}
+            },
+            success : function(exists) {
+                var id = "#"+question
+                 $(id).hide();
+             }
+
+          });
+
+        });
+        });
+
+</script>
+{% endblock javascript %}
+
