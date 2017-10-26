@@ -1,0 +1,43 @@
+{% extends "professor_area/index.html" %}
+
+{% block pageHeader %}
+    <h2 class="page-header">Cadastrar Questões</h2>
+{% endblock pageHeader %}
+{% block form %}
+    {% for assunto in assuntos %}
+      <h1>{{ assunto.nome }}</h1>
+    {% endfor %}
+{% endblock form %}
+
+
+{% block javascript %}
+ <script>
+$(document).ready(function () {
+    $("#id_assunto").change(function () {
+      var assunto = $(this).val();
+      $.ajax({
+        url: 'questionarios:assunto',
+        data: {
+          'assunto': assunto
+        },
+        dataType: 'json',
+        success: function (exist_user) {
+          if (exist_user.users) {
+            $.notify({
+            message: 'O usuário já existe, por favor utilize outro username!'
+        },{
+            type: 'pastel-warning',
+            delay: 4000,
+            template: '<div data-notify="container" class="col-xs-11 col-sm-3 alert alert-{0}" role="alert">' +
+                '<span data-notify="title">{1}</span>' +
+                '<span data-notify="message">{2}</span>' +
+            '</div>'
+        });
+          }
+        }
+      });
+
+    });
+ });
+</script>
+{% endblock javascript %}

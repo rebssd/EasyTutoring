@@ -1,7 +1,12 @@
 {% extends "professor_area/index.html" %}
 {% load widget_tweaks %}
 {% block pageHeader %}
-    <h2 class="page-header">Cadastrar Questionario</h2>
+    <h2 class="page-header">Cadastrar Questionario
+   <!--    <a data-toggle="modal" href="#cadastrarQuestao">
+   <button class="btn btn-default btn-login"  id="adicionar" type="button"><i class="fa fa-plus"></i>
+   </button></h2>
+                         </a> -->
+
 {% endblock pageHeader %}
 
 {% block form %}
@@ -15,10 +20,6 @@
              <div class="form-group">
 			        <label for="id_disciplina">Disciplinas:</label>
 			        {{form.disciplina|add_class:"form-control"}}
-            </div>
-            <div class="form-group">
-			        <label for="id_assunto">Assunto:</label>
-			        {{form.assunto|add_class:"form-control"}}
             </div>
             <div class="form-group">
 			        <label for="id_questoes">Questões:</label>
@@ -43,3 +44,34 @@
 
 
 {% endblock form %}
+
+
+{% block javascript %}
+ <script>    
+    $("#id_assunto").change(function () {
+      var assunto = $(this).val();
+      $.ajax({
+        url: 'questionarios:assunto',
+        data: {
+          'assunto': assunto
+        },
+        dataType: 'json',
+        success: function (exist_user) {
+          if (exist_user.users) {
+            $.notify({
+            message: 'O usuário já existe, por favor utilize outro username!'
+        },{
+            type: 'pastel-warning',
+            delay: 4000,
+            template: '<div data-notify="container" class="col-xs-11 col-sm-3 alert alert-{0}" role="alert">' +
+                '<span data-notify="title">{1}</span>' +
+                '<span data-notify="message">{2}</span>' +
+            '</div>'
+        });
+          }
+        }
+      });
+
+    });
+</script>
+{% endblock javascript %}

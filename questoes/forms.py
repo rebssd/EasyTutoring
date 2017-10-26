@@ -1,13 +1,14 @@
 from django import forms
 from .models import Questao
 from disciplinas.models import Disciplina
+from assuntos.models import Assunto
 from usuarios.models import Tutor,Aluno,Professor
 from django.forms import ModelForm
 
 class QuestaoForm(forms.Form):
 	CHOICES = (('a', 'a'),('b', 'b'),('c', 'c'),('d', 'd'))
 	enunciado = forms.CharField(max_length=200)
-	assunto = forms.CharField(max_length=100)
+	assunto = forms.ModelChoiceField(queryset=Assunto.objects.all().order_by('nome'))
 	letra_a = forms.CharField(max_length=200)
 	letra_b = forms.CharField(max_length=200)
 	letra_c = forms.CharField(max_length=200)

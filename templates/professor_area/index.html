@@ -5,7 +5,6 @@
 {% endblock principal %}
 
 
-
 {% block barraLateral %}
                 <div class="navbar-default sidebar" role="navigation">
                 <div class="sidebar-nav navbar-collapse" >
@@ -34,8 +33,15 @@
                                     <a href="{% url 'questionarios:new' %}" id="link-color">Cadastrar Questionarios</a>
                                 </li>
                                 <li>
-                                    <a href="#" id="link-color">Todos os Questionários</a>
+                                    <a href="{% url 'questionarios:todosQuestionarios' %}" id="link-color">Todos os Questionários</a>
                                 </li>
+                                <li  class="itens-menu">
+                                    <a href="{% url 'questoes:new' %}" id="link-color">Cadastrar Questão</a>
+                                </li>
+                                <li  class="itens-menu">
+                                    <a href="{% url 'assuntos:new' %}" id="link-color">Cadastrar Assunto</a>
+                                </li>
+
                             </ul>
                             <!-- /.nav-second-level -->
                         </li>

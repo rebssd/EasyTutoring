@@ -4,11 +4,11 @@ from disciplinas.models import Disciplina
 from usuarios.models import Tutor,Aluno,Professor
 from django.forms import ModelForm
 from questoes.models import Questao
+from assuntos.models import Assunto
 
 class QuestionarioForm(forms.Form):
 	codigo = forms.CharField( max_length=50)
 	disciplina = forms.ModelChoiceField(queryset=Disciplina.objects.all().order_by('nome'))
-	assunto = forms.CharField(max_length=100)
 	questoes = forms.ModelMultipleChoiceField(queryset=Questao.objects.all().order_by('enunciado'))
 
 	def is_valid(self):

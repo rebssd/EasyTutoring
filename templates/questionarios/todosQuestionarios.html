@@ -1,0 +1,36 @@
+{% extends "professor_area/index.html" %}
+{% load widget_tweaks %}
+{% block pageHeader %}
+    <h2 class="page-header">todos os questionarios</h2>
+{% endblock pageHeader %}
+
+{% block form %}
+
+    <div class="panel-body">
+        <div class="table-responsive table-bordered">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Codigo do Questionário</th>
+                        <th>Criado por</th>
+                        <th>Editar</th>
+                    </tr>
+                </thead>
+                <tbody>
+                	{% for questionario in questionarios %}
+                        <tr>
+                            <td>{{questionario.codigo}}</td>
+                            <td>{{questionario.professor.nome_completo}}</td>
+                            <td><a  href="{% url 'questionarios:cadastrarQuestoes' questionario.id %}"> <button type="button" class="btn btn-info btn-circle"><i class="fa fa-edit"></i>
+        </button></a></td>
+                        </tr>
+					{% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <!-- /.table-responsive -->
+    </div>
+
+
+
+{% endblock form %}

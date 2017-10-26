@@ -9,5 +9,4 @@ class Questionario(models.Model):
 	codigo = models.CharField(max_length=50)
 	disciplina = models.ForeignKey(Disciplina)
 	professor = models.ForeignKey(Professor)
-	assunto  = models.CharField(max_length=100)
 	questoes = models.ManyToManyField(Questao)
