@@ -1,0 +1,21 @@
+{% extends "professor_area/index.html" %}
+
+{% load widget_tweaks %}
+
+{% block pageHeader %}
+    <h2 class="page-header">Informações Sobre O Questionário</h2>
+{% endblock pageHeader %}
+{% block form %}
+    <h4><b>Título: </b>{{ questionario.codigo }}</h4>
+    <h4><b>Turma: </b>{{ questionario.turma }}</h4><hr>
+    <center><h4>Questões</h4></center>
+    {% for questao in questoes %}
+        <h4>{{ questao.enunciado }}</h4>
+            <li>{{questao.letra_a}}</li>
+            <li>{{questao.letra_b}}</li>
+            <li>{{questao.letra_c}}</li>
+            <li>{{questao.letra_d}}</li>
+            <hr>
+    {% endfor %}
+{% endblock form %}
+

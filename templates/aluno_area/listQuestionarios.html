@@ -1,0 +1,33 @@
+
+{% extends "aluno_area/turmaArea.html" %}
+{% block pageHeader %}
+    <h2 class="page-header">Todos Os Questionarios</h2>
+{% endblock pageHeader %}
+
+{% block form %}
+    <div class="panel-body">
+        <div class="table-responsive table-bordered">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Titulo</th>
+                        <th>Criado Por</th>
+                        <th>Responder</th>
+                    </tr>
+                </thead>
+                <tbody>
+                	{% for questionario in questionarios %}
+                        <tr>
+                            <td>{{ questionario.codigo }}</td>
+                            <td>{{questionario.professor}}</td>
+                             <td>#</td>
+
+                        </tr>
+					{% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <!-- /.table-responsive -->
+    </div>
+
+{% endblock form %}

@@ -90,3 +90,11 @@ def addquestao(request,questionario_id):
 		'message': 'Não foi possível cadastrar à questão.'
 		}
 	return JsonResponse(exists)
+
+def show(request,questionario_id):
+	user = request.user
+	usuario = Professor.objects.get(user=user)
+	questionario = Questionario.objects.get(pk=questionario_id)
+	questoes = questionario.questoes.all()
+	context = {'usuario':usuario,'questionario':questionario, 'questoes':questoes}
+	return render(request,'questionarios/show.html',context=context)

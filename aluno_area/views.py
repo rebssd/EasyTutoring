@@ -8,6 +8,12 @@ from disciplinas.models import Disciplina
 from django.http import HttpResponseRedirect
 from django.contrib import messages
 from turmas.forms import TurmaForm
+from questionarios.models import Questionario
+from questionarios.forms import QuestionarioForm
+from questoes.forms import QuestaoForm
+from questoes.models import Questao
+from assuntos.models import Assunto
+from assuntos.forms import AssuntoForm
 
 @login_required
 def index(request):
@@ -19,7 +25,7 @@ def index(request):
 	verificarUser = verificarUsuario(request)
 	return render(request, verificarUser ,context=context_dict)
 
-
+@login_required
 def verificarUsuario(request):
 	if request.user.has_perm('usuarios.pode_acessar_area_professor'):
 		return 'professor_area/index.html'
@@ -27,7 +33,7 @@ def verificarUsuario(request):
 		return  'tutor_area/index.html'
 	else:
 		return 'aluno_area/index.html'
-
+@login_required
 def todasTurmas(request):
 	user = request.user
 	usuario = Aluno.objects.get(user=user)
@@ -54,3 +60,14 @@ def listAlunos(request,turma_id):
 	'alunos': alunos, 
 	'usuario':usuario}
 	return render(request, 'aluno_area/listAlunos.html', context=context)
+
+def listQuestionarios(request,turma_id):
+	user = request.user
+	usuario = Usuario.objects.get(user=user)
+	turma = Turma.objects.get(pk=turma_id)
+	professor= turma.professor
+	questionarios = Questionario.objects.filter(professor_id=professor)
+	context= {'questionarios':questionarios,
+	'usuario':usuario,
+	'turma':turma}
+	return render(request,'aluno_area/listQuestionarios.html',context=context)
