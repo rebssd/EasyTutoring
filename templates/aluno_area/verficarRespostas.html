@@ -1,0 +1,45 @@
+<style>
+	.bordas{
+	border-left: 2px solid #971A0E;
+	border-right: 2px solid #A31C0F;
+	border-top: 2px solid #C92212;
+	border-bottom: 2px solid #EA2D1A;
+	} 
+.correta {
+  background-image: -webkit-gradient( linear, left top, right top, color-stop(0, #1A8467), color-stop(0.15, #2BD5A6), color-stop(0.3, #156B53), color-stop(0.45, #156B53), color-stop(0.6, #156B53),color-stop(0.75, #156B53), color-stop(0.9, #156B53), color-stop(1, #1A8467) );
+  color:transparent;
+  -webkit-background-clip: text;
+  background-clip: text;
+}
+
+</style>
+{% for questao in questoes_erradas %}
+	<div class="bordas" >
+	<h4>{{questao.enunciado}}</h4> <br>
+	{% if questao.resposta == "a" %}
+		<h5 class="correta">{{questao.letra_a}}</h5>
+		<h5>b) {{questao.letra_b}}</h5>
+		<h5>c) {{questao.letra_c}}</h5>
+		<h5>d) {{questao.letra_d}}</h5>
+	{% elif questao.resposta == "b" %}
+		<h5>a) {{questao.letra_a}}</h5>
+		<h5 class="correta">b) {{questao.letra_b}}</h5>
+		<h5>c) {{questao.letra_c}}</h5>
+		<h5>d) {{questao.letra_d}}</h5>
+
+	{% elif questao.resposta == "c" %}
+		<h5>a) {{questao.letra_a}}</h5>
+		<h5>b) {{questao.letra_b}}</h5>
+		<h5 class="correta">c) {{questao.letra_c}}</h5>
+		<h5>d) {{questao.letra_d}}</h5>
+
+	{% else %}
+		<h5>a) {{questao.letra_a}}</h5>
+		<h5>b) {{questao.letra_b}}</h5>
+		<h5>c){{questao.letra_c}}</h5>
+		<h5 class="correta">d) {{questao.letra_d}}</h5>
+	{% endif %}
+	<hr>
+	<h5 class="correta"><b>Nota:</b> {{questao.observacao}} </h5>
+	</div><br>
+{% endfor %}

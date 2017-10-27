@@ -1,0 +1,71 @@
+
+{% extends "aluno_area/turmaArea.html" %}
+{% block pageHeader %}
+    <h2 class="page-header">Questionario</h2>
+{% endblock pageHeader %}
+
+{% block form %}
+<div id="questionario">
+    <h4><b>Título: </b>{{ questionario.codigo }}</h4>
+    <center><h4>Questões</h4></center>
+<!--     {% for questao in questoes %}
+   <p id="questao" ><b>{{ questao.enunciado }}</b> <br>
+    <input name="{{questao.id}}" value="a" type="checkbox"> {{questao.letra_a}} <br>
+    <input name="{{questao.id}}" value="b" type="checkbox"> {{questao.letra_b}} <br>
+    <input name="{{questao.id}}" value="c"  type="checkbox"> {{questao.letra_c}} <br>
+    <input name="{{questao.id}}" value="d" type="checkbox"> {{questao.letra_d}} <br>
+        </p><hr>
+{% endfor %}
+ -->
+<div class="loader"></div>
+
+    {% for questao in questoes %}
+       <p  ><b>{{ questao.enunciado }}</b> <br>
+        <input id="checar" name="{{questao.id}}" value="a" type="RADIO">a) {{questao.letra_a}} <br>
+        <input id="checar" name="{{questao.id}}" value="b" type="RADIO">b) {{questao.letra_b}} <br>
+        <input id="checar" name="{{questao.id}}" value="c"  type="RADIO">c) {{questao.letra_c}} <br>
+        <input id="checar" name="{{questao.id}}" value="d" type="RADIO">d) {{questao.letra_d}} <br>
+            </p><hr>
+    {% endfor %}
+    <center><button id="submeter">SUBMETER</button></center><br>
+</div>
+
+<div id="results" class="form-group col-sm-12">
+      
+    </div>
+
+{% endblock form %}
+
+{% block javascript %}
+<script>
+$(document).ready(function(){
+
+    var checkedCheckboxes = [];
+    var idsQuest = [];
+    $('#submeter').click(function() {
+        $('input').each(function(){
+            if ($(this).is(':checked')) {
+                checkedCheckboxes.push($(this).val())
+                idsQuest.push($(this).attr('name'))
+
+            }
+
+        });    
+            $.ajax({
+            url: 'verficarRespostas',
+             method: 'POST',
+             data: {results: checkedCheckboxes, ids: idsQuest , csrfmiddlewaretoken: '{{ csrf_token }}'},
+             success : function(html) {
+                $('#results').html(html);
+                $('#questionario').hide();
+
+                }
+
+          });
+
+    });
+});
+
+</script>
+
+{% endblock javascript %}

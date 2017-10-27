@@ -14,6 +14,10 @@ from questoes.forms import QuestaoForm
 from questoes.models import Questao
 from assuntos.models import Assunto
 from assuntos.forms import AssuntoForm
+from django.http import JsonResponse
+import json
+from django.template.loader import render_to_string
+from django.http import HttpResponse
 
 @login_required
 def index(request):
@@ -66,8 +70,38 @@ def listQuestionarios(request,turma_id):
 	usuario = Usuario.objects.get(user=user)
 	turma = Turma.objects.get(pk=turma_id)
 	professor= turma.professor
-	questionarios = Questionario.objects.filter(professor_id=professor)
+	questionarios = Questionario.objects.filter(professor_id=professor,turma_id=turma)
 	context= {'questionarios':questionarios,
 	'usuario':usuario,
 	'turma':turma}
 	return render(request,'aluno_area/listQuestionarios.html',context=context)
+
+def responderQuestionario(request,turma_id,questionario_id):
+	user = request.user
+	usuario = Usuario.objects.get(user=user)
+	turma = Turma.objects.get(pk=turma_id)
+	questionario = Questionario.objects.get(pk=questionario_id)
+	questoes = questionario.questoes.all()
+	context= {'questionario':questionario,
+	'usuario':usuario,
+	'turma':turma,
+	'questoes':questoes}
+	return render(request,'aluno_area/responderQuestionario.html',context=context)
+
+def verficarRespostas(request,turma_id,questionario_id):
+	user = request.user
+	usuario = Usuario.objects.get(user=user)
+	turma = Turma.objects.get(pk=turma_id)
+	questionario = Questionario.objects.get(pk=questionario_id)
+	questoes = questionario.questoes.all()
+	results = request.POST.getlist('results[]')
+	ids = request.POST.getlist('ids[]')
+	questoes_erradas =  []
+	for id in range(len(ids)):
+		q= Questao.objects.get(pk=ids[id])
+		resposta = results[id]
+		if q.resposta != resposta:
+			questoes_erradas.append(q)
+	context= {'results':results,'turma':turma,'questionario':questionario, 'questoes_erradas':questoes_erradas}
+	html = render_to_string('aluno_area/verficarRespostas.html', context=context)
+	return HttpResponse(html)
