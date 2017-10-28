@@ -11,10 +11,33 @@
   -webkit-background-clip: text;
   background-clip: text;
 }
-
 </style>
+ <div class="modal fade" id="resultado" >
+  <div class="modal-dialog"  id="informacoes">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+        <h4 class="modal-title">Resultado do Questionário</h4>
+      </div>
+      <div class="modal-body">
+        {% if total == erradas %}
+            <p>Você errou todas as questões, tente outra vez...</p>
+
+        {% elif erradas == 0 %}
+        	<p><b>Parabéns</b>, você acertou todas as questões.</p>
+        {% else %}
+        	<p>Você errou <b>{{erradas}}/{{total}}</b></p>
+        {% endif %}
+        <p> </p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default btn-sm btn-login" data-dismiss="modal">Fechar</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div></div><!-- /.modal -->
 {% for questao in questoes_erradas %}
-	<div class="bordas" >
+	<div class="bordas"  >
 	<h4>{{questao.enunciado}}</h4> <br>
 	{% if questao.resposta == "a" %}
 		<h5 class="correta">{{questao.letra_a}}</h5>
@@ -43,3 +66,11 @@
 	<h5 class="correta"><b>Nota:</b> {{questao.observacao}} </h5>
 	</div><br>
 {% endfor %}
+
+{% block javascript %}
+
+        <script>
+                $('#resultado').modal();
+        </script>
+
+{% endblock javascript %}

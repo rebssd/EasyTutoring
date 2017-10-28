@@ -1,4 +1,3 @@
-<!DOCTYPE html>
 <html lang="pt-br">
 {% load static  %}
 <head>
@@ -41,10 +40,11 @@ Morris Charts CSS -->
 </head>
 
 <body>
-
     <div id="wrapper">
+
         <!-- Navigation -->
         <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
+
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
                     <span class="sr-only">Toggle navigation</span>
@@ -71,12 +71,11 @@ Morris Charts CSS -->
                         </li>
                         <li class="divider"></li>
                             {% block logout %}{% endblock logout %}
-                        </li>
                     </ul>
                     <!-- /.dropdown-user -->
-                </li>
                 <!-- /.dropdown -->
             </ul>
+
             <!-- /.navbar-top-links -->
             {% block barraLateral %}
                 
@@ -98,11 +97,8 @@ Morris Charts CSS -->
         </div>
     </div>
         <!-- /#page-wrapper -->
-{% block form2 %}
-    
-{% endblock form2 %}
+</body>
 
-    </div>
     <!-- /#wrapper -->
 
     <!-- jQuery -->
@@ -127,6 +123,5 @@ Morris Charts CSS -->
     {% block javascript %}
         
     {% endblock javascript %}
-</body>
 
 </html>

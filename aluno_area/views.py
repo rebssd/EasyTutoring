@@ -102,6 +102,11 @@ def verficarRespostas(request,turma_id,questionario_id):
 		resposta = results[id]
 		if q.resposta != resposta:
 			questoes_erradas.append(q)
-	context= {'results':results,'turma':turma,'questionario':questionario, 'questoes_erradas':questoes_erradas}
+	context= {'results':results,
+	'turma':turma,
+	'questionario':questionario, 
+	'questoes_erradas':questoes_erradas,
+	'erradas': len(questoes_erradas),
+	'total': len(results)}
 	html = render_to_string('aluno_area/verficarRespostas.html', context=context)
 	return HttpResponse(html)

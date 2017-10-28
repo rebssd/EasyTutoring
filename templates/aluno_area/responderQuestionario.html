@@ -1,5 +1,5 @@
 
-{% extends "aluno_area/turmaArea.html" %}
+{% extends "aluno_area/index.html" %}
 {% block pageHeader %}
     <h2 class="page-header">Questionario</h2>
 {% endblock pageHeader %}
@@ -27,7 +27,7 @@
         <input id="checar" name="{{questao.id}}" value="d" type="RADIO">d) {{questao.letra_d}} <br>
             </p><hr>
     {% endfor %}
-    <center><button id="submeter">SUBMETER</button></center><br>
+    <center><button class="btn btn-default btn-sm btn-login" id="submeter">Responder</button></center><br>
 </div>
 
 <div id="results" class="form-group col-sm-12">
@@ -37,6 +37,7 @@
 {% endblock form %}
 
 {% block javascript %}
+
 <script>
 $(document).ready(function(){
 
@@ -56,8 +57,10 @@ $(document).ready(function(){
              method: 'POST',
              data: {results: checkedCheckboxes, ids: idsQuest , csrfmiddlewaretoken: '{{ csrf_token }}'},
              success : function(html) {
-                $('#results').html(html);
+
                 $('#questionario').hide();
+
+                $('#results').html(html);
 
                 }
 
