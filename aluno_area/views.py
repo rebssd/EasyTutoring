@@ -12,6 +12,7 @@ from questionarios.models import Questionario
 from questionarios.forms import QuestionarioForm
 from questoes.forms import QuestaoForm
 from questoes.models import Questao
+from resultados.models import Resultado
 from assuntos.models import Assunto
 from assuntos.forms import AssuntoForm
 from django.http import JsonResponse
@@ -23,10 +24,12 @@ from django.http import HttpResponse
 def index(request):
 	user = request.user
 	usuario = Usuario.objects.get(user=user)
+	turmas = Turma.objects.filter(alunos__id=usuario.id)
 	context_dict = {'usuario': usuario}
 	if not request.user.is_authenticated :
 		return redirect('%s?next=%s' % (settings.LOGIN_URL,request.path))
 	verificarUser = verificarUsuario(request)
+
 	return render(request, verificarUser ,context=context_dict)
 
 @login_required
@@ -90,7 +93,7 @@ def responderQuestionario(request,turma_id,questionario_id):
 
 def verficarRespostas(request,turma_id,questionario_id):
 	user = request.user
-	usuario = Usuario.objects.get(user=user)
+	usuario = Aluno.objects.get(user=user)
 	turma = Turma.objects.get(pk=turma_id)
 	questionario = Questionario.objects.get(pk=questionario_id)
 	questoes = questionario.questoes.all()
@@ -102,6 +105,13 @@ def verficarRespostas(request,turma_id,questionario_id):
 		resposta = results[id]
 		if q.resposta != resposta:
 			questoes_erradas.append(q)
+
+	exists = Resultado.objects.filter(questionario=questionario,aluno=usuario).exists()
+	if exists == False:
+		resultado = Resultado(questionario=questionario,aluno=usuario)
+		resultado.save()
+		resultado.questoes_erradas = questoes_erradas
+		resultado.save()
 	context= {'results':results,
 	'turma':turma,
 	'questionario':questionario, 

@@ -3,7 +3,9 @@
 {% load widget_tweaks %}
 
 {% block pageHeader %}
-    <h2 class="page-header">Informações Sobre O Questionário</h2>
+    <h2 class="page-header">Informações Sobre O Questionário
+    <a  href="{% url 'resultados:index' questionario.id %}"> <button style: "float: right;" type="button" class="btn btn-warning btn-circle btn-lg"><i class="fa fa-bar-chart-o  "></i>
+                            </button></a></h2>
 {% endblock pageHeader %}
 {% block form %}
     <h4><b>Título: </b>{{ questionario.codigo }}</h4>

@@ -1,9 +1,7 @@
 from django.db import models
-
 # Create your models here.
 from django.contrib.auth.models import User
 from easy_thumbnails.fields import ThumbnailerImageField
-
 class Usuario(models.Model):
 	# TOMAR CUIDADO COM ISSO AQUI
 

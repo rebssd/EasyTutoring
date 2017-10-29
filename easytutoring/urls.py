@@ -22,6 +22,7 @@ urlpatterns = [
     url(r'^', include('usuarios.urls')),
     url(r'^aluno_area/', include('aluno_area.urls')),
     url(r'^turmas/', include('turmas.urls')),
+    url(r'^resultados/', include('resultados.urls')),
     url(r'^assuntos/', include('assuntos.urls')),
     url(r'^questoes/', include('questoes.urls')),
     url(r'^questionarios/', include('questionarios.urls')),

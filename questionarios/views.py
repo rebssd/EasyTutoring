@@ -10,6 +10,7 @@ from .models import Questionario
 from .forms import QuestionarioForm
 from questoes.forms import QuestaoForm
 from questoes.models import Questao
+from resultados.models import Resultado
 from assuntos.models import Assunto
 from assuntos.forms import AssuntoForm
 from django.http import HttpResponseRedirect
