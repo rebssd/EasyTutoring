@@ -1,35 +1,42 @@
 {% extends "tutor_area/index.html" %}
 {% load widget_tweaks %}
 {% block pageHeader %}
-    <h2 class="page-header">Cadastrar Frequência</h2>
+    <h2 class="page-header">Lançar Frequência</h2>
 {% endblock pageHeader %}
 
 {% block form %}
     <div class="panel-body">
         <div class="table-responsive table-bordered">
             <table class="table">
+
                 <thead>
                     <tr>
-                        <th>#</th>
-                        <th>Matricula</th>
-                        <th>Nome Completo</th>
-                        <th>Curso</th>
+                        <th>Nome</th>
+                        <th>Presença</th>
                     </tr>
                 </thead>
-                <!-- /.<tbody>
+                <tbody>
                 	{% for aluno in alunos %}
                         <tr>
-                            <td><img src="{{ aluno.thumb.url}}" style="width:40px; height:40px; border:1px solid black;" class= "img-circle"/></td>
-                            <td>{{aluno.matricula}}</td>
                             <td>{{aluno.nome_completo}}</td>
-                             <td>{{aluno.curso}}</td>
+                             <td><select class="selectpicker">
+                                  <option>Falta</option>
+                                  <option>Presente</option>
+                                </select>   </td>
 
                         </tr>
 					{% endfor %}
-                </tbody>-->
+                </tbody>
+
             </table>
+                <center><button class="btn btn-default btn-lg btn-login" id="submeter">Cadastrar</button></center><br>
+
         </div>
         <!-- /.table-responsive -->
     </div>
 
 {% endblock form %}
+
+{% block javascript %}
+
+{% endblock javascript %}

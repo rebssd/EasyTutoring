@@ -15,6 +15,12 @@ import json
 from django.template.loader import render_to_string
 
 # Create your views here.
-def index(request):
-
-	return render(request,'faltas/new.html')
+def new(request,turma_id):
+	user = request.user
+	usuario = Usuario.objects.get(user=user)
+	turma = Turma.objects.get(pk=turma_id)
+	alunos = turma.alunos.all()
+	context= {'turma': turma, 
+	'alunos': alunos, 
+	'usuario':usuario}
+	return render(request,'faltas/new.html',context=context)
