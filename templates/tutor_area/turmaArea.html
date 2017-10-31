@@ -31,7 +31,7 @@
                                 </li>
 
                                 <li>
-                                    <a href="#" id="link-color">Visualizar Frequências</a>
+                                    <a href="{% url 'faltas:dadosFrequencia' turma.id%}" id="link-color">Visualizar Frequências</a>
                                 </li>
                                 <li>
                                     <a href="#" id="link-color">Visualizar Dados Adicionais</a>
@@ -55,8 +55,35 @@
                 </div>
                 <!-- /.sidebar-collapse -->
             </div>
+    {% if messages %}
+        <ul class="messages">
+            {% for message in messages %}
+            <li{% if message.tags %} class="{{ message.tags }}" style="display:none;" {% endif %}>{{ message }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
 
 {% endblock barraLateral %}
 {% block logout %}
  <li><a href="{% url 'usuarios:logout' %}"><i class="fa fa-sign-out fa-fw"></i> Sair</a>
 {% endblock logout %}
+{% block javascript %}
+       <script>
+        $(".info").each(function () {
+            var message = $('.info').text();
+        $.notify({
+            message: message,
+        },{
+            type: 'pastel-success',
+            delay: 3000,
+            template: '<div data-notify="container" class="col-xs-11 col-sm-3 alert alert-{0}" role="alert">' +
+                '<span data-notify="title">{1}</span>' +
+                '<span data-notify="message">{2}</span>' +
+            '</div>'
+        });
+
+
+      });
+
+    </script>
+{% endblock javascript %}

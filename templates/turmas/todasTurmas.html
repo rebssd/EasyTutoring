@@ -22,6 +22,7 @@
                         <th>Codigo da Turma</th>
                         <th>Tutor Responsável</th>
                         <th>Editar</th>
+                        <th>Frequência</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -30,7 +31,9 @@
                             <td>{{turma.codigo}}</td>
                             <td>{{turma.tutor}}</td>
                             <td><a  href="{% url 'turmas:edit' turma.id %}"> <button type="button" class="btn btn-info btn-circle"><i class="fa fa-edit"></i>
-        </button></a></td>
+                            </button></a></td>
+                            <td><a  href="{% url 'faltas:dadosFrequencia' turma.id %}"> <button type="button" class="btn btn-info btn-circle"><i class="fa fa-edit"></i>
+                             </button></a></td>
                         </tr>
 					{% endfor %}
                 </tbody>

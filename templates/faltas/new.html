@@ -1,11 +1,11 @@
-{% extends "tutor_area/index.html" %}
+{% extends "tutor_area/turmaArea.html" %}
 {% load widget_tweaks %}
 {% block pageHeader %}
     <h2 class="page-header">Lançar Frequência</h2>
 {% endblock pageHeader %}
 
 {% block form %}
-    <div class="panel-body" id="oi">
+    <div class="panel-body" >
         <div class="table-responsive table-bordered">
             <table class="table">
 
@@ -34,10 +34,6 @@
         </div>
         <!-- /.table-responsive -->
     </div>
-<div id="results" class="form-group col-sm-12">
-      
-    </div>
-
 {% endblock form %}
 
 {% block javascript %}
@@ -48,7 +44,7 @@ $(document).ready(function(){
     var alunos = [];
     $('#submeter').click(function() {
             $("tr td #selecao option:selected").each(function() {
-                frequencia.push($(this).val())
+                frequencia.push($(this).text());
                 var valor = this.value;
                 alunos.push(valor);
 
@@ -58,8 +54,8 @@ $(document).ready(function(){
              method: 'POST',
              data: {frequencia: frequencia, alunos: alunos, csrfmiddlewaretoken: '{{ csrf_token }}'},
              success : function(html) {
-                $('#oi').hide();
-                $('#results').html(html);
+                    window.history.pushState("", "", "/");
+                    window.location.href = "tutor_area/turmaArea/{{turma.id}}/"
                 }
 
           });

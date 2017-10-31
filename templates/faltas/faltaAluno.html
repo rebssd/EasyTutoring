@@ -1,0 +1,37 @@
+{% extends "aluno_area/turmaArea.html" %}
+{% block form %}
+<br>
+<div class="form-group col-sm-8" style="padding-left: 150px;">
+	<div class="panel panel-default">
+    <div class="panel-heading">
+            <center><h4>Suas Faltas</h4></center>
+    </div>
+            <div class="panel-body">
+             <div class="table-responsive">
+                <table class="table table-bordered table-striped table-condensed">
+                  <thead>
+                    <tr>
+                      <th><center>Data</center></th>
+                      <th><center>Situação</center></th>
+                    </tr>
+                  </thead>
+                    <tbody>
+                    {% for falta in faltas  %}
+                    	
+                          <tr>
+							<td>{{falta.date}}</td>
+						{% if falta.presenca == True %}
+							<td>Presente</td>
+						{% else %}
+							<td>Falta</td>
+						{% endif %}
+                          </tr>
+                    {% endfor %}
+                      </tbody>
+                  </table>
+                <center><h5><b>Total De Faltas: </b>{{count_falta}}</h5></center>
+              </div>
+              </div>
+    </div>
+  </div>
+{% endblock form %}
