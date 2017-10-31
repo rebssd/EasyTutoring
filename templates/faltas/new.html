@@ -5,7 +5,7 @@
 {% endblock pageHeader %}
 
 {% block form %}
-    <div class="panel-body">
+    <div class="panel-body" id="oi">
         <div class="table-responsive table-bordered">
             <table class="table">
 
@@ -19,9 +19,9 @@
                 	{% for aluno in alunos %}
                         <tr>
                             <td>{{aluno.nome_completo}}</td>
-                             <td><select class="selectpicker">
-                                  <option>Falta</option>
-                                  <option>Presente</option>
+                             <td><select id="selecao" class="form-control" style="width: 110px;">
+                                  <option value="{{aluno.id}}">Falta</option>
+                                  <option value="{{aluno.id}}">Presente</option>
                                 </select>   </td>
 
                         </tr>
@@ -34,9 +34,38 @@
         </div>
         <!-- /.table-responsive -->
     </div>
+<div id="results" class="form-group col-sm-12">
+      
+    </div>
 
 {% endblock form %}
 
 {% block javascript %}
+<script>
+$(document).ready(function(){
 
+    var frequencia = [];
+    var alunos = [];
+    $('#submeter').click(function() {
+            $("tr td #selecao option:selected").each(function() {
+                frequencia.push($(this).val())
+                var valor = this.value;
+                alunos.push(valor);
+
+            }); 
+            $.ajax({
+            url: 'cadastrarFrequencia',
+             method: 'POST',
+             data: {frequencia: frequencia, alunos: alunos, csrfmiddlewaretoken: '{{ csrf_token }}'},
+             success : function(html) {
+                $('#oi').hide();
+                $('#results').html(html);
+                }
+
+          });
+
+    });
+});
+
+</script>
 {% endblock javascript %}
