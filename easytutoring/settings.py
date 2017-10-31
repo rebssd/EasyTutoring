@@ -34,6 +34,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'faltas.apps.FaltasConfig',
     'resultados.apps.ResultadosConfig',
     'turmas.apps.TurmasConfig',
     'assuntos.apps.AssuntosConfig',
