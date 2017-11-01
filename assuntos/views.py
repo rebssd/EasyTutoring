@@ -24,7 +24,7 @@ def new(request):
 				disciplina = form.cleaned_data['disciplina']
 				assunto = Assunto(nome=nome, disciplina= disciplina)
 				assunto.save()
-				messages.add_message(request, messages.INFO, 'Disciplina cadastrada com sucesso.')
+				messages.add_message(request, messages.INFO, 'Assunto cadastrado com sucesso.')
 				return HttpResponseRedirect('/professor_area/index.html')
 			else:
 				messages.add_message(request, messages.ERROR, 'Disciplina já cadastrada.')

@@ -27,7 +27,7 @@
                 	{% for disciplina in disciplinas %}
                         <tr>
                             <td>{{disciplina.nome}}</td>
-                            <td><a  href="{% url 'disciplinas:edit' disciplina.id %}"> <button type="button" class="btn btn-info btn-circle"><i class="fa fa-edit"></i>
+                            <td><a  href="{% url 'disciplinas:edit' disciplina.id %}"> <button type="button" class="btn btn-warning btn-circle"><i class="fa fa-edit"></i>
         </button></a></td>
                         </tr>
 					{% endfor %}
