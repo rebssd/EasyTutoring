@@ -1,4 +1,10 @@
 {% extends "tutor_area/turmaArea.html" %}
+
+{% block ref %}
+    <link rel="stylesheet" href="http://code.jquery.com/ui/1.9.1/themes/base/jquery-ui.css" />
+        
+{% endblock ref %}
+
 {% load widget_tweaks %}
 {% block pageHeader %}
     <h2 class="page-header">Lançar Frequência</h2>
@@ -13,6 +19,7 @@
                     <tr>
                         <th>Nome</th>
                         <th>Presença</th>
+                        <th> Data: <input  type ="text" id="calendario"/></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -23,6 +30,7 @@
                                   <option value="{{aluno.id}}">Falta</option>
                                   <option value="{{aluno.id}}">Presente</option>
                                 </select>   </td>
+                            
 
                         </tr>
 					{% endfor %}
@@ -37,12 +45,17 @@
 {% endblock form %}
 
 {% block javascript %}
+<script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+<script src="http://code.jquery.com/ui/1.9.1/jquery-ui.js"></script>
+
 <script>
 $(document).ready(function(){
-
     var frequencia = [];
     var alunos = [];
+
     $('#submeter').click(function() {
+          var dat = $("#calendario").val();
+
             $("tr td #selecao option:selected").each(function() {
                 frequencia.push($(this).text());
                 var valor = this.value;
@@ -52,7 +65,7 @@ $(document).ready(function(){
             $.ajax({
             url: 'cadastrarFrequencia',
              method: 'POST',
-             data: {frequencia: frequencia, alunos: alunos, csrfmiddlewaretoken: '{{ csrf_token }}'},
+             data: {'dat': dat,frequencia: frequencia, alunos: alunos, csrfmiddlewaretoken: '{{ csrf_token }}'},
              success : function(html) {
                     window.history.pushState("", "", "/");
                     window.location.href = "tutor_area/turmaArea/{{turma.id}}/"
@@ -61,7 +74,15 @@ $(document).ready(function(){
           });
 
     });
+
+ });
+</script>
+
+<script>
+    $(function() {
+    $('#calendario').datepicker();
 });
 
-</script>
+
+</script>>
 {% endblock javascript %}

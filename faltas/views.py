@@ -32,6 +32,8 @@ def cadastrarFrequencia(request,turma_id):
 	usuario = Usuario.objects.get(user=user)
 	turma = Turma.objects.get(pk=turma_id)
 	alunos = turma.alunos.all().order_by('nome_completo')
+	dat= request.POST.get('dat')
+	print(dat)
 	frequencia = request.POST.getlist('frequencia[]')
 	alunos_id = request.POST.getlist('alunos[]')
 	for i in range(len(alunos_id)):

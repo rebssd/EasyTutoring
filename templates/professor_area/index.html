@@ -12,15 +12,12 @@
                         <br>
                        <center><p><img src="{{ usuario.thumb.url}}" class= "img-circle"/> </p></center>
                         <li class="itens-menu">
-                            <a href="index.html" id="link-color"><i class="fa fa-dashboard fa-fw"></i> Home</a>
-                        </li>
-                        <li class="itens-menu">
                             <a href="#" id="link-color"><i class="fa fa-files-o"></i> Disciplina<span class="fa arrow"></span></a>
                             <ul class="nav nav-second-level">
                                 <li  class="itens-menu">
                                     <a href="{% url 'disciplinas:new' %}" id="link-color">Cadastrar Disciplina</a>
                                 </li>
-                                <li>
+                                <li class="itens-menu">
                                     <a href="{% url 'disciplinas:show' %}" id="link-color">Todas as Disciplinas</a>
                                 </li>
                             </ul>
@@ -32,7 +29,7 @@
                                 <li  class="itens-menu">
                                     <a href="{% url 'questionarios:new' %}" id="link-color">Cadastrar Questionarios</a>
                                 </li>
-                                <li>
+                                <li class="itens-menu">
                                     <a href="{% url 'questionarios:todosQuestionarios' %}" id="link-color">Todos os Questionários</a>
                                 </li>
 <!--                                 <li  class="itens-menu">
@@ -71,10 +68,10 @@
                         <li class="itens-menu">
                             <a href="#" id="link-color"><i class="fa fa-users"></i> Turmas<span class="fa arrow"></span></a>
                             <ul class="nav nav-second-level">
-                                <li>
+                                <li class="itens-menu">
                                     <a href="{% url 'turmas:new' %}" id="link-color">Criar Turma</a>
                                 </li>
-                                <li>
+                                <li class="itens-menu">
                                     <a href="{% url 'turmas:todasTurmas' %}" id="link-color">Todas às Turmas</a>
                                 </li>
                             </ul>
@@ -83,10 +80,10 @@
                         <li class="itens-menu">
                             <a href="#" id="link-color"><i class="fa fa-commenting-o"></i> Forum<span class="fa arrow"></span></a>
                             <ul class="nav nav-second-level">
-                                <li>
+                                <li class="itens-menu">
                                     <a href="#" id="link-color">Ver Notícias</a>
                                 </li>
-                                <li>
+                                <li class="itens-menu">
                                     <a href="#" id="link-color">Criar Postagem</a>
                                 </li>
                             </ul>
