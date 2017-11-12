@@ -1,37 +1,39 @@
 {% extends "aluno_area/turmaArea.html" %}
+
+{% block pageHeader %}
+    <h2 class="page-header">Suas Faltas</h2>
+{% endblock pageHeader %}
+
 {% block form %}
-<br>
-<div class="form-group col-sm-8" style="padding-left: 150px;">
-	<div class="panel panel-default">
-    <div class="panel-heading">
-            <center><h4>Suas Faltas</h4></center>
-    </div>
-            <div class="panel-body">
-             <div class="table-responsive">
-                <table class="table table-bordered table-striped table-condensed">
-                  <thead>
+
+      <div class="panel-body">
+        <div class="table-responsive table-bordered">
+            <table class="table">
+                <thead>
                     <tr>
-                      <th><center>Data</center></th>
-                      <th><center>Situação</center></th>
+                      <th>Data</th>
+                      <th>Situação</th>
                     </tr>
-                  </thead>
-                    <tbody>
+                </thead>
                     {% for falta in faltas  %}
-                    	
+                      
                           <tr>
-							<td>{{falta.date}}</td>
-						{% if falta.presenca == True %}
-							<td>Presente</td>
-						{% else %}
-							<td>Falta</td>
-						{% endif %}
+              <td>{{falta.date}}</td>
+            {% if falta.presenca == True %}
+              <td>Presente</td>
+            {% else %}
+              <td>Falta</td>
+            {% endif %}
                           </tr>
                     {% endfor %}
                       </tbody>
                   </table>
+                  <hr>
                 <center><h5><b>Total De Faltas: </b>{{count_falta}}</h5></center>
+                <br>
               </div>
-              </div>
+        </div>
+        <!-- /.table-responsive -->
     </div>
-  </div>
+
 {% endblock form %}

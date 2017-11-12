@@ -14,7 +14,7 @@ from django.http import HttpResponse
 from django.http import JsonResponse
 import json
 from django.template.loader import render_to_string
-
+from datetime import date
 # Create your views here.
 def new(request,turma_id):
 	user = request.user
@@ -33,15 +33,17 @@ def cadastrarFrequencia(request,turma_id):
 	turma = Turma.objects.get(pk=turma_id)
 	alunos = turma.alunos.all().order_by('nome_completo')
 	dat= request.POST.get('dat')
-	print(dat)
+	partes = dat.split('-')
+	minha_data = date(int(partes[2]), int(partes[1]), int(partes[0]))
+	print(minha_data)
 	frequencia = request.POST.getlist('frequencia[]')
 	alunos_id = request.POST.getlist('alunos[]')
 	for i in range(len(alunos_id)):
 		aluno = Aluno.objects.get(pk=alunos[i])
 		if (frequencia[i].upper() == "PRESENTE") :
-			presenca = Falta(alunos=aluno, turmas=turma, presenca=True)
+			presenca = Falta(alunos=aluno, turmas=turma,date=minha_data, presenca=True)
 		else:
-			presenca = Falta(alunos=aluno,turmas=turma)
+			presenca = Falta(alunos=aluno,turmas=turma,date=minha_data)
 		presenca.save()
 	messages.add_message(request, messages.INFO, 'Frequência cadastrada com sucesso.')
 	context= {'turma': turma, 
