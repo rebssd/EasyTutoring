@@ -35,6 +35,7 @@ ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
     'faltas.apps.FaltasConfig',
+    'forum.apps.ForumConfig',
     'resultados.apps.ResultadosConfig',
     'turmas.apps.TurmasConfig',
     'assuntos.apps.AssuntosConfig',

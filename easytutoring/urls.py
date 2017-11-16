@@ -21,6 +21,7 @@ from django.conf.urls.static import static
 urlpatterns = [
     url(r'^', include('usuarios.urls')),
     url(r'^faltas/', include('faltas.urls')),
+    url(r'^forum/', include('forum.urls')),
     url(r'^aluno_area/', include('aluno_area.urls')),
     url(r'^turmas/', include('turmas.urls')),
     url(r'^resultados/', include('resultados.urls')),

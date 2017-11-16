@@ -1,13 +1,17 @@
-{% extends "tutor_area/turmaArea.html" %}
+
+    {% extends "tutor_area/turmaArea.html" %}
+    
 {% block pageHeader %}
     <h2 class="page-header">Faltas por Aluno </h2>
 {% endblock pageHeader %}
 {% block form %}
-<div class="form-group col-sm-6">
-
-<canvas id="myChart" width="600" height="350"></canvas>
-</div>
-{% endblock form %}
+  <div class="row">
+            <div class = "form-group" >
+              <div class="col-lg-10">
+                    <canvas  id="myChart" ></canvas>
+                </div>
+                </div>
+                </div>{% endblock form %}
 
 {% block javascript %}
 
