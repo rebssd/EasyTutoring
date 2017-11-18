@@ -20,6 +20,7 @@ import json
 from django.template.loader import render_to_string
 from django.http import HttpResponse
 from resultados.models import Resultado
+from django.core.paginator import Paginator, InvalidPage, EmptyPage
 
 # Create your views here.
 def show(request,turma_id):
@@ -27,37 +28,58 @@ def show(request,turma_id):
 	usuario = Usuario.objects.get(user=user)
 	template = templates(request)
 	turma = Turma.objects.get(pk=turma_id)
-	posts = Post.objects.filter(turma_id=turma)
-	context= {'turma': turma, 
-	'usuario':usuario,
-	'template': template,
-	'posts':posts}
-	return render(request,'forum/show.html',context=context)
-
-def new(request,turma_id):
-	template = ""
-	user = request.user
-	usuario = Usuario.objects.get(user=user)
-	if usuario.tipo == "tutor" :
-		template = "tutor_area/turmaArea.html"
-	elif usuario.tipo == "professor" :
-		template = "professor_area/index.html"
-	else:
-		template = "aluno_area/turmaArea.html"
-	turma = Turma.objects.get(pk=turma_id)
+	p = Post.objects.filter(turma_id=turma).order_by('date').reverse()
+	paginator = Paginator(p, 3) 
+	try:
+		page = int(request.GET.get('page', '1'))
+	except ValueError:
+		page = 1
+	try:
+		posts = paginator.page(page)
+	except (EmptyPage, InvalidPage):
+		posts = paginator.page(paginator.num_pages)
 	if request.method == 'POST':
 		form = PostForm(request.POST, request.FILES)
 		if form.is_valid():
 			titulo = form.cleaned_data['titulo']
 			descricao = form.cleaned_data['descricao']
 			anexo = form.cleaned_data['anexo']
-			post = Post(titulo = titulo, descricao=descricao, anexo=anexo, turma = turma)
+			post = Post(titulo = titulo, descricao=descricao, anexo=anexo, turma = turma, usuario = usuario)
+			post.save()
+			form = PostForm()
+			messages.add_message(request, messages.INFO, 'Notícia cadastrada com sucesso.')
+			return render(request,'forum/show.html', {'form':form,'usuario':usuario,'turma':turma,'template':template,'posts':posts})
+	messages.add_message(request, messages.ERROR, 'Não foi possível cadastrar a notícia.')
+	form = PostForm()
+	context= {'turma': turma, 
+	'usuario':usuario,
+	'template': template,
+	'posts':posts,
+	'form':form}
+
+	return render(request,'forum/show.html',context=context)
+
+def new(request,turma_id):
+	template = templates(request)
+	user = request.user
+	usuario = Usuario.objects.get(user=user)
+	turma = Turma.objects.get(pk=turma_id)
+	posts = Post.objects.filter(turma_id=turma)
+	if request.method == 'POST':
+		form = PostForm(request.POST, request.FILES)
+		if form.is_valid():
+			titulo = form.cleaned_data['titulo']
+			descricao = form.cleaned_data['descricao']
+			anexo = form.cleaned_data['anexo']
+			post = Post(titulo = titulo, descricao=descricao, anexo=anexo, turma = turma, usuario = usuario)
 			post.save()
 			messages.add_message(request, messages.INFO, 'Notícia cadastrada com sucesso.')
-			return  render(request, 'forum/show.html', {'turma':turma,'template':template})
+			return  render(request, 'forum/show.html', {'usuario':usuario,'turma':turma,'template':template,'posts':posts})
 	form = PostForm()
 	return render(request, 'forum/new.html', {'form': form,'turma':turma,'template':template})
 
+def cadastrar_comentario(request,turma_id,post_id):
+	return JsonResponse(True)
 
 def templates(request):
 	user = request.user

@@ -1,32 +1,14 @@
 {% extends template %}
+{% load widget_tweaks %}
+{% load static %}
 {% block ref %}
-    <style>
-    	#img{
-    		width: 35px;
-    		height: 35px;
-    	}
-    	#button{
-			float: right;
-    	}
-    	#excell{
-			color: #2f9909;
-    	}
-    	#pdf{
-			color: #a81919;
-    	}
-    	#power{
-			color: #f58d05;
-    	}
-    	#zip{
-			color: #7d6001;
-    	}
-    	#doc{
-    		color: #0b5cb8;
-    	}
-    </style>
+    <link href="{% static 'css/forum.css' %}" rel="stylesheet">
+
 {% endblock ref %}
 {% block pageHeader %}
-    <h2 class="page-header">Fórum</h2>
+    <h2 class="page-header">Fórum
+                               <a data-toggle="modal" href="#noticia"> <button type="button" id="button" class="btn btn-default btn-circle btn-login"><i class="fa fa-plus"></i>
+                            </button></a></h2>
 {% endblock pageHeader %}
 
 {% block form %}
@@ -34,7 +16,7 @@
 	    <div class="col-lg-12">
 	                    <div class="panel panel-warning">
 	                        <div class="panel-heading">
-	                           <h4> <img id="img"src="{{usuario.thumb.url}}"> {{post.titulo}}                               
+	                           <h4> <img id="img" class= "img-circle" src="{{post.usuario.thumb.url}}"> {{post.titulo}}                               
 	                           <p><small class="text-muted"> <h5><i class="fa fa-clock-o"></i>{{post.date}}</h5></small>
 								</p>
 							</h4>
@@ -43,7 +25,6 @@
 								<p>{{ post.descricao }}</p>
 								{% if post.anexo.url|slice:"-4:" == ".pdf"  %}
 								<a id="button" href="{{ post.anexo.url }}"> <button type="button" class="btn btn-default btn-circle"><i id="pdf" class="fa  fa-file-pdf-o "></i>
-                            </button>
                             </button></a>
 								{% elif post.anexo.url|slice:"-4:" == ".doc" or post.anexo.url|slice:"-5:" == ".docx"  %}
 								    <a id="button"  href="{{ post.anexo.url }}"> <button type="button" class="btn btn-default btn-circle"><i id="doc" class="fa  fa-file-word-o"></i>
@@ -59,12 +40,114 @@
 								    <a id="button"  href="{{ post.anexo.url }}"> <button type="button" class="btn btn-default btn-circle"><i id="zip" class="fa fa-file-zip-o"></i>
                             </button></a>
 								{% endif %}
-								</p>
 	                        </div>
 	                        <div class="panel-footer">
-	                            Panel Footer
-	                        </div>
+	                        <div class="row">
+								<div class="form-group">
+	                        		<div class="col-sm-10">
+
+	                            	<input id="text" class="form-control" >
+	                           		</div><button type="button" id="adicionar" class="btn btn-default panel panel-warning ">Cadastrar</button>
+
+	                           </div>
+	                        </div></div>
 	                    </div>
 	     </div>
     {% endfor %}
+
+ <div class="modal fade" id="noticia" >
+  <div class="modal-dialog"  id="informacoes">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+        <h4 class="modal-title">Cadastrar Notícia</h4>
+      </div>
+      <div class="modal-body">
+	<form action="{% url 'forum:show' turma.id%}" method="post" enctype="multipart/form-data">
+		{% csrf_token %}
+        <fieldset>
+            <div class="form-group">
+			        {{ form.titulo.errors }}
+			        <label for="id_titulo">Titulo:</label>
+			        {{ form.titulo|add_class:"form-control"|attr:"id:id_titulo"|attr:"rows: 2" }}
+            </div>
+            <div class="form-group">
+			        {{ form.descricao.errors }}
+			        <label for="id_descricao">Descrição:</label>
+                    {{ form.descricao|add_class:"form-control"|attr:"rows: 5" }}
+            </div>
+            <div class="form-group">
+			        <label for="anexo">Anexo:</label>
+			        {{ form.anexo|add_class:"form-control" }}
+            </div>
+		{% if form.erros %}
+            <div class="alert alert-danger">
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                {{form.non_field_errors}}
+            </div>
+		<br>
+        {% endif %}
+            <center><input id="but" type="submit" value="Cadastrar" class="btn btn-default btn-sm btn-login" /></center>
+
+        </fieldset>
+    </form>
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default btn-sm btn-login" data-dismiss="modal">Fechar</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div>
+<div class="row">
+	<div class="col-sm-6" id="x">
+		<div class="dataTables_paginate paging_simple_numbers" id="dataTables-example_paginate">
+  <ul class="pagination pagination-sm" >
+    <li class="page-item">
+				{% if posts.has_previous %}
+	   				 <li class="page-item"><a class="page-link" href="?page={{ posts.previous_page_number }}"><div id="zip">Anterior</div></a></li>
+		        {% endif %}
+				{% for i in posts.paginator.page_range  %}
+					{% if posts.number == i %}
+			    		<li class="page-item active"><a class="page-link" href="?page={{i}}">{{i}}</a></li>
+					{% else %}
+					    <li class="page-item"><a  class="page-link" href="?page={{i}}"><div id="zip">{{i}}</div></a></li>
+					{% endif %}
+				{% endfor %}
+
+
+				{% if posts.has_next %}
+					 <li class="page-item"><a class="page-link"<a href="?page={{ posts.next_page_number }}"><div id="zip">Próxima</div></a></li>
+
+		        {% endif %}
+			</ul>
+		</div>
+	</div>
+</div>
 {% endblock form %}
+
+
+{% block javascript %}
+
+        <script>
+        ('#button').click(function(){
+                $('#noticia').modal();
+        });
+        </script>
+		<script>
+    $("#adicionar").click(function () {
+      var nome = $('#texto').val();
+      $('#texto').val('');
+      $.ajax({
+        url: '/forum/cadastrar_comentario/',
+        data: {
+          'nome': nome,
+          'turma': {{turma.id}}
+          'post':{{post.id}}
+        },
+        dataType: 'json',
+        success: function (exists) {
+          if (exists.cadastrado) {
+
+		</script>
+{% endblock javascript %}
