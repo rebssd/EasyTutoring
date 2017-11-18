@@ -1,26 +1,8 @@
-from django.shortcuts import render
-from django.http import HttpResponse
-from django.http import HttpResponseRedirect
-from usuarios.models import Usuario, Professor,Aluno
-from django.contrib.auth.models import User
-from django.contrib.auth.decorators import login_required
-from django.contrib.auth.models import Permission
-from disciplinas.models import Disciplina
-from faltas.models import Falta
-from turmas.models import Turma
-from django.http import HttpResponseRedirect
-from django.contrib import messages
-from django.http import HttpResponse
-from django.http import JsonResponse
-import json
-from django.template.loader import render_to_string
-from datetime import date
+from django import forms
 
 
-def show(request,turma_id):
-	user = request.user
-	usuario = Usuario.objects.get(user=user)
-	turma = Turma.objects.get(pk=turma_id)
-	context= {'turma': turma, 
-	'usuario':usuario}
-	return render(request,'forum/show.html',context=context)
+class PostForm(forms.Form):
+	titulo = forms.CharField(label='titulo', widget=forms.Textarea(),required=False, max_length=150)
+	descricao = forms.CharField(label='titulo', widget=forms.Textarea(),required=False ,max_length=800)
+	anexo = forms.FileField(label="anexo", required=True)
+

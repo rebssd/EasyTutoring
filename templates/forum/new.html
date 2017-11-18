@@ -1,0 +1,53 @@
+{% extends template %}
+
+{% load widget_tweaks %}
+
+{% block pageHeader %}
+    <h2 class="page-header">Cadastrar Post</h2>
+{% endblock pageHeader %}
+
+{% block form %}
+	<form action="{% url 'forum:new' turma.id%}" method="post" enctype="multipart/form-data">
+		{% csrf_token %}
+<!--         {% if erros %}
+    {% for field in form %}
+        {% for error in field.errors %}
+            <div class="message" style="display:none;" >
+            {{error|escape}}
+            </div>
+        {% endfor %}
+    {% endfor %}
+    {% for error in form.non_field_errors %}
+        <div class="message" style="display:none;">
+         {{ error|escape}}<br>
+        </div>
+    {% endfor %}
+{% endif %}
+ -->
+        <fieldset>
+            <div class="form-group">
+			        {{ form.titulo.errors }}
+			        <label for="id_titulo">Titulo:</label>
+			        {{ form.titulo|add_class:"form-control"|attr:"id:id_titulo"|attr:"rows: 2" }}
+            </div>
+            <div class="form-group">
+			        {{ form.descricao.errors }}
+			        <label for="id_descricao">descricao:</label>
+                    {{ form.descricao|add_class:"form-control"|attr:"rows: 5" }}
+            </div>
+            <div class="form-group">
+			        <label for="anexo">Anexo:</label>
+			        {{ form.anexo|add_class:"form-control" }}
+            </div>
+		{% if form.erros %}
+            <div class="alert alert-danger">
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                {{form.non_field_errors}}
+            </div>
+
+        {% endif %}
+          <input  type="submit" value="Cadastrar" class="btn btn-lg btn-default btn-block btn-login" />
+
+        </fieldset>
+    </form>
+{% endblock form %}
