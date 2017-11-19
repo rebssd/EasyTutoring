@@ -75,7 +75,8 @@
                                     </div>
 											{% endif %}
 										{% endfor %}
-										<input id="texto" class="form-control"><button type="button" value="{{post.id}}" id="add" class="btn btn-default ">Cadastrar</button>
+										<button type="button" value="{{post.id}}" id="add" class="btn btn-default ">Cadastrar</button>
+										<input id="texto{{post.id}}" class="form-control">
 
 		                           		</div>
 								   		</div>
@@ -170,12 +171,14 @@
         });
 </script>
 
-<script >
-$(document).ready(function(){
-    $('#add').click(function(){
-      var text = $('#texto').val();
+<script>
+$(document).on('click','#add', function(e) {
+	  var icon = "#texto"
+	  var post = e.target.value;
+	  str = icon.concat(post);
+      var text = $(str).val();
+
       $('#texto').val('');
-      var post = $('#add').val();
       $.ajax({
         url: '/forum/cadastrar_comentario/',
         datatype: 'json',
@@ -187,11 +190,10 @@ $(document).ready(function(){
         },
         success: function (html) {
         	window.location.reload();
+
+
 	}
   });
   });
-})
-
-		</script>
-
+</script>
 {% endblock javascript %}
