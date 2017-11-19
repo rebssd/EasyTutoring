@@ -8,5 +8,6 @@ urlpatterns = [
     url(r'^new/(?P<turma_id>[0-9]+)/$', views.new, name='new'),
     url(r'^cadastrar_comentario', views.cadastrar_comentario, name='cadastrar_comentario'),
     url(r'^coments/(?P<post_id>[0-9]+)/$', views.coments, name='coments'),
+    url(r'^excluir_post', views.excluir_post, name='excluir_post'),
 
     ]

@@ -22,16 +22,17 @@ from django.http import HttpResponse
 from resultados.models import Resultado
 from django.core.paginator import Paginator, InvalidPage, EmptyPage
 from django.core import serializers
-
+from datetime import datetime
 # Create your views here.
 def show(request,turma_id):
 	user = request.user
 	usuario = Usuario.objects.get(user=user)
 	template = templates(request)
 	turma = Turma.objects.get(pk=turma_id)
-	p = Post.objects.filter(turma_id=turma).order_by('date')
+	p = Post.objects.filter(turma_id=turma).order_by('date').reverse()
 	paginator = Paginator(p, 3)
 	comentarios = Comentario.objects.all()
+	data = datetime.now
 	try:
 		page = int(request.GET.get('page', '1'))
 	except ValueError:
@@ -50,10 +51,10 @@ def show(request,turma_id):
 			post.save()
 			form = PostForm()
 			messages.add_message(request, messages.INFO, 'Notícia cadastrada com sucesso.')
-			return render(request,'forum/show.html', {'comentarios':comentarios,'form':form,'usuario':usuario,'turma':turma,'template':template,'posts':posts})
+			return render(request,'forum/show.html', {'data':data,'comentarios':comentarios,'form':form,'usuario':usuario,'turma':turma,'template':template,'posts':posts})
 	messages.add_message(request, messages.ERROR, 'Não foi possível cadastrar a notícia.')
 	form = PostForm()
-	context= {'turma': turma, 
+	context= {'data':data,'turma': turma, 
 	'usuario':usuario,
 	'template': template,
 	'posts':posts,
@@ -98,7 +99,24 @@ def cadastrar_comentario(request):
 		}
 		html = render_to_string('forum/coments.html', context=context)
 		return HttpResponse(html)
+def excluir_post(request):
+	if request.is_ajax():
+		usuario_id = request.GET.get('usuario','')
+		post_id = request.GET.get('post','')
+		post = Post(pk=post_id)
+		try:
+			post.delete()
+			messages.add_message(request, messages.INFO, 'Notícia deletada com sucesso.')
+			exists = {
+				'deletou': True
+			}
 
+		except:
+			messages.add_message(request, messages.INFO, 'Não foi possível deletar a notícia.')
+			exists = {
+				'deletou': False
+			}
+		return JsonResponse(exists)
 
 def templates(request):
 	user = request.user
@@ -114,11 +132,10 @@ def templates(request):
 def coments(request,post_id):
 	post = Post.objects.get(pk=post_id)
 	comentarios = post.comentarios.all()
-	dat = json.dumps(post.id)
 
 	context={
 	'post': post,
 	'comentarios':comentarios,
 	}
 	html = render_to_string('forum/coments.html', context=context)
-	return HttpResponse(dat,html,content_type='application/json')
+	return HttpResponse(html)
