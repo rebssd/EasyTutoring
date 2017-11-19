@@ -43,8 +43,7 @@
                                     </small>
                                 </div>
                                 <p>
-                                      {{post.titulo}}                                                               <button value="{{post.id}}" id="excluir"> deletar</button>
-
+                                      {{post.titulo}} <button value="{{post.id}}" id="excluir"> deletar</button>
 
                                 </p>
 
@@ -123,10 +122,10 @@
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
         <h4 class="modal-title">Cadastrar Notícia</h4>
       </div>
-      <div class="modal-body">
-	<form action="{% url 'forum:show' turma.id%}" method="post" enctype="multipart/form-data">
+      <div class="modal-body" >
+	<form  action="{% url 'forum:show' turma.id%}" method="post" enctype="multipart/form-data">
 		{% csrf_token %}
-        <fieldset>
+        <fieldset >
             <div class="form-group">
 			        {{ form.titulo.errors }}
 			        <label for="id_titulo">Titulo:</label>
@@ -252,7 +251,6 @@ $(document).on('click','#excluir', function(e) {
   }
   });
 </script>
-
 <script>
         $(".info").each(function () {
             var message = $('.info').text();

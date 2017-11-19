@@ -17,6 +17,8 @@ from assuntos.models import Assunto
 from assuntos.forms import AssuntoForm
 from django.http import JsonResponse
 import json
+from django import forms
+
 from django.template.loader import render_to_string
 from django.http import HttpResponse
 from resultados.models import Resultado
