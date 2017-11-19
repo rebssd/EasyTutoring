@@ -5,7 +5,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import Permission
 from turmas.models import Turma
-from .models import Post
+from .models import Post, Comentario
 from django.http import HttpResponseRedirect
 from django.contrib import messages
 from .forms import PostForm
@@ -21,6 +21,7 @@ from django.template.loader import render_to_string
 from django.http import HttpResponse
 from resultados.models import Resultado
 from django.core.paginator import Paginator, InvalidPage, EmptyPage
+from django.core import serializers
 
 # Create your views here.
 def show(request,turma_id):
@@ -28,8 +29,9 @@ def show(request,turma_id):
 	usuario = Usuario.objects.get(user=user)
 	template = templates(request)
 	turma = Turma.objects.get(pk=turma_id)
-	p = Post.objects.filter(turma_id=turma).order_by('date').reverse()
-	paginator = Paginator(p, 3) 
+	p = Post.objects.filter(turma_id=turma).order_by('date')
+	paginator = Paginator(p, 3)
+	comentarios = Comentario.objects.all()
 	try:
 		page = int(request.GET.get('page', '1'))
 	except ValueError:
@@ -48,14 +50,16 @@ def show(request,turma_id):
 			post.save()
 			form = PostForm()
 			messages.add_message(request, messages.INFO, 'Notícia cadastrada com sucesso.')
-			return render(request,'forum/show.html', {'form':form,'usuario':usuario,'turma':turma,'template':template,'posts':posts})
+			return render(request,'forum/show.html', {'comentarios':comentarios,'form':form,'usuario':usuario,'turma':turma,'template':template,'posts':posts})
 	messages.add_message(request, messages.ERROR, 'Não foi possível cadastrar a notícia.')
 	form = PostForm()
 	context= {'turma': turma, 
 	'usuario':usuario,
 	'template': template,
 	'posts':posts,
-	'form':form}
+	'form':form,
+	'comentarios':comentarios,
+	}
 
 	return render(request,'forum/show.html',context=context)
 
@@ -78,8 +82,23 @@ def new(request,turma_id):
 	form = PostForm()
 	return render(request, 'forum/new.html', {'form': form,'turma':turma,'template':template})
 
-def cadastrar_comentario(request,turma_id,post_id):
-	return JsonResponse(True)
+def cadastrar_comentario(request):
+	if request.is_ajax():
+		usuario_id = request.GET.get('usuario','')
+		post_id = request.GET.get('post','')
+		text = request.GET.get('text','')
+		usuario = Usuario(pk=usuario_id)
+		post = Post(pk=post_id)
+		comentario = Comentario(post=post,usuario=usuario,descricao=text)
+		comentario.save()
+		comentarios = Comentario.objects.filter(post=post)
+		context={
+		'post':post,
+		'comentarios':comentarios,
+		}
+		html = render_to_string('forum/coments.html', context=context)
+		return HttpResponse(html)
+
 
 def templates(request):
 	user = request.user
@@ -91,3 +110,15 @@ def templates(request):
 	else:
 		template = "aluno_area/turmaArea.html"
 	return template
+
+def coments(request,post_id):
+	post = Post.objects.get(pk=post_id)
+	comentarios = post.comentarios.all()
+	dat = json.dumps(post.id)
+
+	context={
+	'post': post,
+	'comentarios':comentarios,
+	}
+	html = render_to_string('forum/coments.html', context=context)
+	return HttpResponse(dat,html,content_type='application/json')
