@@ -44,8 +44,10 @@
                                 </div>
                                 <p>
                                       {{post.titulo}} 
+                                   {% if usuario.id == post.usuario.id  %}
 									<button style="float: right;" value="{{post.id}}" id="excluir" type="button" class="btn btn-default btn-circle"><i style="color: #7d6001" class="fa fa-times"></i>
-                            </button>
+                            		</button>
+                                   {% endif %}
                                 </p>
 
                 			 </div>
@@ -54,20 +56,20 @@
 	                        <div class="panel-body">
 								<p>{{ post.descricao }}</p>
 								{% if post.anexo.url|slice:"-4:" == ".pdf"  %}
-								<a id="button" href="{{ post.anexo.url }}"> <button type="button" class="btn btn-default btn-circle"><i id="pdf" class="fa  fa-file-pdf-o "></i>
+								<a id="button" href="{{ post.anexo.url }}"> <button type="button" class="btn btn-default btn-lg btn-circle"><i id="pdf" class="fa  fa-file-pdf-o "></i>
                             </button></a>
 								{% elif post.anexo.url|slice:"-4:" == ".doc" or post.anexo.url|slice:"-5:" == ".docx"  %}
-								    <a id="button"  href="{{ post.anexo.url }}"> <button type="button" class="btn btn-default btn-circle"><i id="doc" class="fa  fa-file-word-o"></i>
+								    <a id="button"  href="{{ post.anexo.url }}"> <button type="button" class="btn btn-default btn-lg btn-circle"><i id="doc" class="fa  fa-file-word-o"></i>
                             </button></a>
 								{% elif post.anexo.url|slice:"-5:" == ".xlsx" or post.anexo.url|slice:"-4:" == ".csv" %}
-								    <a  id="button" href="{{ post.anexo.url }}"> <button type="button" class="btn btn-default btn-circle"><i id="excell" class="fa  fa-file-excel-o  
+								    <a  id="button" href="{{ post.anexo.url }}"> <button type="button" class="btn btn-default btn-lg btn-circle"><i id="excell" class="fa  fa-file-excel-o  
 "></i>
                             </button></a>
 								{% elif post.anexo.url|slice:"-5:" == ".pptx"  %}
-								    <a  id="button" href="{{ post.anexo.url }}"> <button type="button" class="btn btn-default btn-circle"><i id="power" class="fa fa-file-powerpoint-o"></i>
+								    <a  id="button" href="{{ post.anexo.url }}"> <button type="button" class="btn btn-default btn-lg btn-circle"><i id="power" class="fa fa-file-powerpoint-o"></i>
                             </button></a>
 								{% else %}
-								    <a id="button"  href="{{ post.anexo.url }}"> <button type="button" class="btn btn-default btn-circle"><i id="zip" class="fa fa-file-zip-o"></i>
+								    <a id="button"  href="{{ post.anexo.url }}"> <button type="button" class="btn btn-default btn-lg btn-circle"><i id="zip" class="fa fa-file-zip-o"></i>
                             </button></a>
 								{% endif %}
 	                        </div>
@@ -95,8 +97,10 @@
 			                                            </small>
 			                                        </div>
 			                                        <p>
-			                                              {{comentario.descricao}}									<button style="float: right;" value="{{comentario.id}}" id="excluircomentario" type="button" class="btn btn-default btn-circle"><i style="color: #7d6001" class="fa fa-times"></i>
-
+			                                              {{comentario.descricao}}									
+															{% if usuario.id == comentario.usuario.id %}
+					                                              <button style="float: right;" value="{{comentario.id}}" id="excluircomentario" type="button" class="btn btn-default btn-circle"><i style="color: #7d6001" class="fa fa-times"></i>
+															{% endif %}
 			                                        </p>
                                     </div>
 											{% endif %}
@@ -237,7 +241,7 @@ $(document).on('click','#add', function(e) {
 
 <script>
 $(document).on('click','#excluir', function(e) {
-	  var post = e.target.value;
+	var post = e.target.value;
 	if(confirm("Tem certeza que deseja excluir a notícia?")) {
       $.ajax({
         url: '/forum/excluir_post/',
@@ -245,6 +249,25 @@ $(document).on('click','#excluir', function(e) {
 		type: 'GET',
         data: {
           'post': post,
+        },
+        success: function (exists) {
+        	window.location.reload();
+}
+  });
+  }
+  });
+</script>
+
+<script>
+$(document).on('click','#excluircomentario', function(e) {
+	var comentario = e.target.value;
+	if(confirm("Tem certeza que deseja excluir o comentario?")) {
+      $.ajax({
+        url: '/forum/excluir_comentario/',
+        datatype: 'json',
+		type: 'GET',
+        data: {
+          'comentario': comentario,
         },
         success: function (exists) {
         	window.location.reload();
