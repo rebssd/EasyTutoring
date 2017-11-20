@@ -3,6 +3,9 @@
 {% block title %}
         <title>Area do Tutor</title>
 {% endblock title %}
+{% block pageHeader %}
+    <h2 class="page-header">Suas Turmas</h2>
+{% endblock pageHeader %}
 
 {% block principal %}
     <a class="navbar-brand navbar-insid" id="link-color" href="{% url 'tutor_area:index' %}">EASYTUTORING</a>
@@ -28,6 +31,46 @@
             </div>
 
 {% endblock barraLateral %}
+{% block form %}
+    {% if messages %}
+        <ul class="messages">
+            {% for message in messages %}
+            <li{% if message.tags %} class="{{ message.tags }}" style="display:none;" {% endif %}>{{ message }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+    <!-- /.panel-heading -->
+    <div class="panel-body">
+        <div class="table-responsive table-bordered">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Codigo da Turma</th>
+                        <th>Disciplina</th>
+                        <th>Professor</th>
+
+                        <th>Entrar</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for turma in turmas %}
+                        <tr>
+                            <td>{{turma.codigo}}</td>
+                            <td>{{turma.disciplina}}</td>
+                            <td>{{ turma.professor }}</td>
+                            <td><a  href="{% url 'tutor_area:turmaArea' turma.id %}"> <button type="button" class="btn btn-warning btn-circle"><i class="glyphicon glyphicon-new-window  
+"></i>
+        </button></a></td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <!-- /.table-responsive -->
+    </div>
+                        <!-- /.panel-body -->
+{% endblock form %}
+
 {% block logout %}
  <li><a href="{% url 'usuarios:logout' %}" ><i class="fa fa-sign-out fa-fw"></i> Sair</a>
 {% endblock logout %}

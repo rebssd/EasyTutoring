@@ -30,6 +30,44 @@
             </div>
 
 {% endblock barraLateral %}
+{% block pageHeader %}
+    <h2 class="page-header">Suas Turmas</h2>
+{% endblock pageHeader %}
+{% block form %}
+    {% if messages %}
+        <ul class="messages">
+            {% for message in messages %}
+            <li{% if message.tags %} class="{{ message.tags }}" style="display:none;" {% endif %}>{{ message }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+    <!-- /.panel-heading -->
+    <div class="panel-body">
+        <div class="table-responsive table-bordered">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Codigo da Turma</th>
+                        <th>Tutor Responsável</th>
+                        <th>Entrar</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for turma in turmas %}
+                        <tr>
+                            <td>{{turma.codigo}}</td>
+                            <td>{{turma.tutor}}</td>
+                            <td><a  href="{% url 'aluno_area:turmaArea' turma.id %}"> <button type="button" class="btn btn-warning btn-circle"><i class="fa fa-share"></i>
+        </button></a></td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <!-- /.table-responsive -->
+    </div>
+                        <!-- /.panel-body -->
+{% endblock form %}
 
 {% block logout %}
  <li><a href="{% url 'usuarios:logout' %}"><i class="fa fa-sign-out fa-fw"></i> Sair</a>

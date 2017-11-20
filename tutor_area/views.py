@@ -14,11 +14,14 @@ from turmas.forms import TurmaForm
 def index(request):
 	user = request.user
 	usuario = Usuario.objects.get(user=user)
-	context_dict = {'usuario': usuario}
+	turmas = Turma.objects.filter(tutor=usuario)
+
+	context_dict = {'usuario': usuario,'turmas':turmas}
 	if not request.user.is_authenticated :
 		return redirect('%s?next=%s' % (settings.LOGIN_URL,request.path))
-	verificarUser = verificarUsuario(request)
-	return render(request, verificarUser ,context=context_dict)
+	verificaUsuario = verificarUsuario(request)
+	return render(request, verificaUsuario,context_dict)
+
 
 
 def verificarUsuario(request):

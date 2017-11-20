@@ -25,9 +25,10 @@ def index(request):
 	user = request.user
 	usuario = Usuario.objects.get(user=user)
 	turmas = Turma.objects.filter(alunos__id=usuario.id)
-	context_dict = {'usuario': usuario}
+	context_dict = {'usuario': usuario,'turmas':turmas}
 	if not request.user.is_authenticated :
 		return redirect('%s?next=%s' % (settings.LOGIN_URL,request.path))
+		
 	verificarUser = verificarUsuario(request)
 
 	return render(request, verificarUser ,context=context_dict)
