@@ -141,3 +141,20 @@ def coments(request,post_id):
 	}
 	html = render_to_string('forum/coments.html', context=context)
 	return HttpResponse(html)
+def excluir_comentario(request):
+	if request.is_ajax():
+		comentario_id = request.GET.get('comentario','')
+		comentario = Comentario.objects.get(pk=comentario_id)
+		try:
+			comentario.delete()
+			messages.add_message(request, messages.INFO, 'Comentario deletado com sucesso.')
+			exists = {
+				'deletou': True
+			}
+
+		except:
+			messages.add_message(request, messages.INFO, 'Não foi possível deletar o comentario.')
+			exists = {
+				'deletou': False
+			}
+		return JsonResponse(exists)

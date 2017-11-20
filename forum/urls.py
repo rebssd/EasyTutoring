@@ -9,5 +9,6 @@ urlpatterns = [
     url(r'^cadastrar_comentario', views.cadastrar_comentario, name='cadastrar_comentario'),
     url(r'^coments/(?P<post_id>[0-9]+)/$', views.coments, name='coments'),
     url(r'^excluir_post', views.excluir_post, name='excluir_post'),
+    url(r'^excluir_comentario', views.excluir_comentario, name='excluir_comentario'),
 
     ]

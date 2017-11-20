@@ -95,7 +95,8 @@
 			                                            </small>
 			                                        </div>
 			                                        <p>
-			                                              {{comentario.descricao}}
+			                                              {{comentario.descricao}}									<button style="float: right;" value="{{comentario.id}}" id="excluircomentario" type="button" class="btn btn-default btn-circle"><i style="color: #7d6001" class="fa fa-times"></i>
+
 			                                        </p>
                                     </div>
 											{% endif %}
@@ -252,6 +253,7 @@ $(document).on('click','#excluir', function(e) {
   }
   });
 </script>
+
 <script>
         $(".info").each(function () {
             var message = $('.info').text();
